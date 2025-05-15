@@ -50,3 +50,19 @@ não existirem), e retornar as informações para o usuário.
 
 ## 📦 Entrega
 - Repositório público no GitHub com instruções no README
+
+## Desenho
+
+```mermaid
+architecture-beta
+    service api(server)[NestJS API Server]
+    service db(database)[PostgreSQL Database]
+    service cache(server)[Redis Cache]
+    service rawg(internet)[RAWG Games API]
+    service client(internet)[HTTP Clients]
+
+    api:R -- L:cache
+    api:B -- T:db
+    api:L -- R:rawg
+    client:R -- L:api
+```
