@@ -8,9 +8,9 @@ import (
 	"log"
 	"net/http"
 	"net/url"
-	"os"
 
 	"github.com/joho/godotenv"
+	"github.com/melkdesousa/gamgo/config"
 	"github.com/melkdesousa/gamgo/external/rawg"
 
 	"github.com/gofiber/fiber/v2"
@@ -36,7 +36,7 @@ func main() {
 		}
 
 		// Make HTTP request to search for games
-		resp, err := http.Get(fmt.Sprintf("https://api.rawg.io/api/games?key=%s&title=%s&search_exact=true", os.Getenv("RAWG_API_KEY"), url.QueryEscape(title)))
+		resp, err := http.Get(fmt.Sprintf("https://api.rawg.io/api/games?key=%s&title=%s&search_exact=true", config.MustGetEnvAs[string]("RAWG_API_KEY"), url.QueryEscape(title)))
 		if err != nil {
 			return c.Status(500).JSON(fiber.Map{
 				"error": "Failed to fetch games: " + err.Error(),
