@@ -1,8 +1,7 @@
-# 🕹️ Teste Técnico – API de Games com NestJS
+# 🕹️ API de Games
 
 ## 🎯 Objetivo
-Avaliar sua habilidade de trabalhar com NestJS, integração com APIs 
-externas, manipulação de dados, cache e persistência em banco de dados.
+Avaliar habilidade de trabalhar com integração com APIs externas, manipulação de dados, cache e persistência em banco de dados.
 
 ## 📝 Descrição do Desafio
 Você deve desenvolver uma API que permita pesquisar informações de jogos 
@@ -11,21 +10,21 @@ buscar os dados de uma fonte externa, armazená-los localmente (se ainda
 não existirem), e retornar as informações para o usuário.
 
 ### 📌 Requisitos Funcionais
-- Endpoint: GET /games/search?title=nome_do_jogo
+- Endpoint: `GET /games/search?title=nome_do_jogo`
     - Buscar o jogo pelo título em uma API pública de games (RAWG).
     - Se o jogo já estiver salvo no banco de dados, retornar o conteúdo salvo com cache.
     - Caso contrário, buscar na API externa, persistir no banco, e retornar o conteúdo.
-- Endpoint: GET /games
+- Endpoint: `GET /games?platform=plataforma`
     - Lista os jogos armazenados no banco.
     - Permitir filtros por nome e plataforma.
 
 ### ✅ Requisitos Técnicos
-- NestJS + TypeScript
 - Banco de dados relacional (preferência PostgreSQL)
 - Cache (Redis ou in-memory)
 - Uso de módulos, DTOs, Services e Controllers
 - Código bem estruturado e documentado (Swagger é um diferencial)
 - README com instruções de execução
+- Testes automatizados (unitários ou e2e)
 
 ### 💾 Persistência Salvar os seguintes dados no banco:
 - id
@@ -53,16 +52,4 @@ não existirem), e retornar as informações para o usuário.
 
 ## Desenho
 
-```mermaid
-architecture-beta
-    service api(server)[NestJS API Server]
-    service db(database)[PostgreSQL Database]
-    service cache(server)[Redis Cache]
-    service rawg(internet)[RAWG Games API]
-    service client(internet)[HTTP Clients]
-
-    api:R -- L:cache
-    api:B -- T:db
-    api:L -- R:rawg
-    client:R -- L:api
-```
+![system design](/docs/sd.svg)
