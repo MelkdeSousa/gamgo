@@ -1,26 +1,26 @@
 version: '3.8'
 
 services:
-  api:
-    container_name: gamgo-api
-    build:
-      context: .
-      dockerfile: Dockerfile
-    ports:
-      - "3000:3000"
-    environment:
-      - DB_HOST=db
-      - DB_PORT=5432
-      - DB_USER=postgres
-      - DB_PASSWORD=postgres
-      - DB_NAME=gamgo
-      - REDIS_URL=redis://cache:6379
-      - RAWG_API_KEY=${RAWG_API_KEY}
-    depends_on:
-      - db
-      - cache
-    volumes:
-      - .:/app
+  # api:
+  #   container_name: gamgo-api
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - "3000:3000"
+  #   environment:
+  #     - DB_HOST=db
+  #     - DB_PORT=5432
+  #     - DB_USER=postgres
+  #     - DB_PASSWORD=postgres
+  #     - DB_NAME=gamgo
+  #     - REDIS_URL=redis://cache:6379
+  #     - RAWG_API_KEY=${RAWG_API_KEY}
+  #   depends_on:
+  #     - db
+  #     - cache
+  #   volumes:
+  #     - .:/app
 
   db:
     container_name: gamgo-db
