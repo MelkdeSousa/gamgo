@@ -1,4 +1,4 @@
-.PHONY: help install docker-up docker-down docker-build start dev clean
+.PHONY: help install docker-up docker-down docker-build start dev clean db/migration-up db/migration-down db/migration-create db/seeds
 
 help: ## Display this help screen
 	@awk 'BEGIN {FS = ":.*##"; printf "\nUsage:\n  make \033[36m<target>\033[0m\n"} /^[a-zA-Z_-]+:.*?##/ { printf "  \033[36m%-15s\033[0m %s\n", $$1, $$2 } /^##@/ { printf "\n\033[1m%s\033[0m\n", substr($$0, 5) } ' $(MAKEFILE_LIST)
@@ -34,3 +34,21 @@ clean: ## Clean up generated files and docker volumes
 	docker compose down -v
 	rm -rf tmp/
 	go clean
+
+db/migration-up: ## Run database migrations
+	@goose up
+
+db/migration-down: ## Rollback database migrations
+	@goose down
+
+db/migration-create: ## Create a new database migration
+	@goose create $(name) sql
+
+db/seeds-up: ## Seed the database
+	@goose -no-versioning -dir database/seeds up
+
+db/seeds-down: ## Rollback database seeds
+	@goose -no-versioning -dir database/seeds down
+
+db/seeds-create: ## Create a new database seeder
+	@goose -dir database/seeds create $(name) sql
