@@ -9,15 +9,16 @@ type GameListResponse struct {
 }
 
 type Result struct {
-	Slug string `json:"slug"`
-	Name string `json:"name"`
+	Slug            string     `json:"slug"`
+	Name            string     `json:"name"`
+	Platforms       []Platform `json:"platforms"`
+	ID              int64      `json:"id"`
+	Released        string     `json:"released"`
+	Rating          float64    `json:"rating"`
+	BackgroundImage *string    `json:"background_image"`
 	// Playtime         int64             `json:"playtime"`
-	Platforms []Platform `json:"platforms"`
 	// Stores           []Store           `json:"stores"`
-	// Released         string            `json:"released"`
 	// Tba              bool              `json:"tba"`
-	// BackgroundImage  *string           `json:"background_image"`
-	// Rating           float64           `json:"rating"`
 	// RatingTop        int64             `json:"rating_top"`
 	// Ratings          []Rating          `json:"ratings"`
 	// RatingsCount     int64             `json:"ratings_count"`
@@ -27,7 +28,6 @@ type Result struct {
 	// Metacritic       *int64            `json:"metacritic"`
 	// SuggestionsCount int64             `json:"suggestions_count"`
 	// Updated          time.Time         `json:"updated"`
-	ID int64 `json:"id"`
 	// Score            string            `json:"score"`
 	// Clip             interface{}       `json:"clip"`
 	// Tags             []Tag             `json:"tags"`
@@ -52,9 +52,9 @@ type AddedByStatus struct {
 }
 
 type Genre struct {
-	ID   int64  `json:"id"`
 	Name string `json:"name"`
-	Slug string `json:"slug"`
+	// ID   int64  `json:"id"`
+	// Slug string `json:"slug"`
 }
 
 type Platform struct {
