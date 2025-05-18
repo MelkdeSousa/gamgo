@@ -1,0 +1,1255 @@
+{
+  "uuid": "b632edaa-fbb6-4a42-a096-2addadd7bd42",
+  "lastMigration": 33,
+  "name": "RAWG Video Games Database API",
+  "endpointPrefix": "api",
+  "latency": 0,
+  "port": 3000,
+  "hostname": "",
+  "folders": [],
+  "routes": [
+    {
+      "uuid": "6ca072f3-4ab3-46a5-9a46-51be8a74bdbb",
+      "type": "http",
+      "documentation": "Get a list of creator positions (jobs).",
+      "method": "get",
+      "endpoint": "creator-roles",
+      "responses": [
+        {
+          "uuid": "c3713ce5-40cb-43fa-9d00-88bffc905ef2",
+          "body": "{\n  \"count\": {{faker 'number.int' max=99999}},\n  \"next\": \"\",\n  \"previous\": \"\",\n  \"results\": [\n    {\n      \"id\": {{faker 'number.int' max=99999}},\n      \"name\": \"\",\n      \"slug\": \"\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "f0e84282-68fd-4f3e-8d68-3ffe0272b237",
+      "type": "http",
+      "documentation": "Get a list of game creators.",
+      "method": "get",
+      "endpoint": "creators",
+      "responses": [
+        {
+          "uuid": "21ecea2f-a8f3-428e-bf3e-925fb3f3d054",
+          "body": "{\n  \"count\": {{faker 'number.int' max=99999}},\n  \"next\": \"\",\n  \"previous\": \"\",\n  \"results\": [\n    {\n      \"id\": {{faker 'number.int' max=99999}},\n      \"name\": \"\",\n      \"slug\": \"\",\n      \"image\": \"\",\n      \"image_background\": \"\",\n      \"games_count\": {{faker 'number.int' max=99999}}\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "3852b333-7102-4a90-9fc2-6575d1a289dd",
+      "type": "http",
+      "documentation": "Get details of the creator.",
+      "method": "get",
+      "endpoint": "creators/:id",
+      "responses": [
+        {
+          "uuid": "5c5bc192-0cf4-474c-bfbb-6a4117b17f62",
+          "body": "{\n  \"id\": {{faker 'number.int' max=99999}},\n  \"name\": \"\",\n  \"slug\": \"\",\n  \"image\": \"\",\n  \"image_background\": \"\",\n  \"description\": \"\",\n  \"games_count\": {{faker 'number.int' max=99999}},\n  \"reviews_count\": {{faker 'number.int' max=99999}},\n  \"rating\": \"\",\n  \"rating_top\": {{faker 'number.int' max=99999}},\n  \"updated\": \"{{faker 'date.recent' 365}}\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "5dfa08d4-676b-4d75-8bae-5a37bd092c42",
+      "type": "http",
+      "documentation": "Get a list of game developers.",
+      "method": "get",
+      "endpoint": "developers",
+      "responses": [
+        {
+          "uuid": "c38574f1-5b35-405d-ad81-ef7959e8792b",
+          "body": "{\n  \"count\": {{faker 'number.int' max=99999}},\n  \"next\": \"\",\n  \"previous\": \"\",\n  \"results\": [\n    {\n      \"id\": {{faker 'number.int' max=99999}},\n      \"name\": \"\",\n      \"slug\": \"\",\n      \"games_count\": {{faker 'number.int' max=99999}},\n      \"image_background\": \"\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "90338095-6c6a-4509-b317-47c37c3db8e9",
+      "type": "http",
+      "documentation": "Get details of the developer.",
+      "method": "get",
+      "endpoint": "developers/:id",
+      "responses": [
+        {
+          "uuid": "ce3c8da1-a2d7-4f66-8cfc-0df4582b0af1",
+          "body": "{\n  \"id\": {{faker 'number.int' max=99999}},\n  \"name\": \"\",\n  \"slug\": \"\",\n  \"games_count\": {{faker 'number.int' max=99999}},\n  \"image_background\": \"\",\n  \"description\": \"\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "ba8085ad-3cf3-4309-a958-2448763ce19c",
+      "type": "http",
+      "documentation": "Get a list of games.",
+      "method": "get",
+      "endpoint": "games",
+      "responses": [
+        {
+          "uuid": "d32f0789-cb4f-4a6a-9bbb-8fd2d84c97a9",
+          "body": "{\n  \"count\": {{faker 'number.int' max=99999}},\n  \"next\": \"\",\n  \"previous\": \"\",\n  \"results\": [\n    {\n      \"id\": {{faker 'number.int' max=99999}},\n      \"slug\": \"\",\n      \"name\": \"\",\n      \"released\": \"{{date '2019' (now) 'yyyy-MM-dd'}}\",\n      \"tba\": {{faker 'datatype.boolean'}},\n      \"background_image\": \"\",\n      \"rating\": {{faker 'number.int' max=99999}},\n      \"rating_top\": {{faker 'number.int' max=99999}},\n      \"ratings\": {},\n      \"ratings_count\": {{faker 'number.int' max=99999}},\n      \"reviews_text_count\": \"\",\n      \"added\": {{faker 'number.int' max=99999}},\n      \"added_by_status\": {},\n      \"metacritic\": {{faker 'number.int' max=99999}},\n      \"playtime\": {{faker 'number.int' max=99999}},\n      \"suggestions_count\": {{faker 'number.int' max=99999}},\n      \"updated\": \"{{faker 'date.recent' 365}}\",\n      \"esrb_rating\": {\n        \"id\": {{faker 'number.int' max=99999}},\n        \"slug\": \"{{oneOf (array 'everyone' 'everyone-10-plus' 'teen' 'mature' 'adults-only' 'rating-pending')}}\",\n        \"name\": \"{{oneOf (array 'Everyone' 'Everyone 10+' 'Teen' 'Mature' 'Adults Only' 'Rating Pending')}}\"\n      },\n      \"platforms\": [\n        {\n          \"platform\": {\n            \"id\": {{faker 'number.int' max=99999}},\n            \"slug\": \"\",\n            \"name\": \"\"\n          },\n          \"released_at\": \"\",\n          \"requirements\": {\n            \"minimum\": \"\",\n            \"recommended\": \"\"\n          }\n        }\n      ]\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "7e0f2e7e-27dc-4119-bc72-463b2fea5cd6",
+      "type": "http",
+      "documentation": "Get a list of DLC's for the game, GOTY and other editions, companion apps, etc.",
+      "method": "get",
+      "endpoint": "games/:game_pk/additions",
+      "responses": [
+        {
+          "uuid": "23ea900d-098a-4499-96e7-f09b8f08914c",
+          "body": "{\n  \"count\": {{faker 'number.int' max=99999}},\n  \"next\": \"\",\n  \"previous\": \"\",\n  \"results\": [\n    {\n      \"id\": {{faker 'number.int' max=99999}},\n      \"slug\": \"\",\n      \"name\": \"\",\n      \"released\": \"{{date '2019' (now) 'yyyy-MM-dd'}}\",\n      \"tba\": {{faker 'datatype.boolean'}},\n      \"background_image\": \"\",\n      \"rating\": {{faker 'number.int' max=99999}},\n      \"rating_top\": {{faker 'number.int' max=99999}},\n      \"ratings\": {},\n      \"ratings_count\": {{faker 'number.int' max=99999}},\n      \"reviews_text_count\": \"\",\n      \"added\": {{faker 'number.int' max=99999}},\n      \"added_by_status\": {},\n      \"metacritic\": {{faker 'number.int' max=99999}},\n      \"playtime\": {{faker 'number.int' max=99999}},\n      \"suggestions_count\": {{faker 'number.int' max=99999}},\n      \"updated\": \"{{faker 'date.recent' 365}}\",\n      \"esrb_rating\": {\n        \"id\": {{faker 'number.int' max=99999}},\n        \"slug\": \"{{oneOf (array 'everyone' 'everyone-10-plus' 'teen' 'mature' 'adults-only' 'rating-pending')}}\",\n        \"name\": \"{{oneOf (array 'Everyone' 'Everyone 10+' 'Teen' 'Mature' 'Adults Only' 'Rating Pending')}}\"\n      },\n      \"platforms\": [\n        {\n          \"platform\": {\n            \"id\": {{faker 'number.int' max=99999}},\n            \"slug\": \"\",\n            \"name\": \"\"\n          },\n          \"released_at\": \"\",\n          \"requirements\": {\n            \"minimum\": \"\",\n            \"recommended\": \"\"\n          }\n        }\n      ]\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "2cb74daa-3376-4a88-8587-ff578f5cca96",
+      "type": "http",
+      "documentation": "Get a list of individual creators that were part of the development team.",
+      "method": "get",
+      "endpoint": "games/:game_pk/development-team",
+      "responses": [
+        {
+          "uuid": "eebc1cf6-1e16-4e23-8049-87e3ee7d9351",
+          "body": "{\n  \"count\": {{faker 'number.int' max=99999}},\n  \"next\": \"\",\n  \"previous\": \"\",\n  \"results\": [\n    {\n      \"id\": {{faker 'number.int' max=99999}},\n      \"name\": \"\",\n      \"slug\": \"\",\n      \"image\": \"\",\n      \"image_background\": \"\",\n      \"games_count\": {{faker 'number.int' max=99999}}\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "25c55de2-6be7-4c51-a2ea-80909825d52d",
+      "type": "http",
+      "documentation": "Get a list of games that are part of the same series.",
+      "method": "get",
+      "endpoint": "games/:game_pk/game-series",
+      "responses": [
+        {
+          "uuid": "2f3288b7-3718-46d5-82f9-64ad44f4c874",
+          "body": "{\n  \"count\": {{faker 'number.int' max=99999}},\n  \"next\": \"\",\n  \"previous\": \"\",\n  \"results\": [\n    {\n      \"id\": {{faker 'number.int' max=99999}},\n      \"slug\": \"\",\n      \"name\": \"\",\n      \"released\": \"{{date '2019' (now) 'yyyy-MM-dd'}}\",\n      \"tba\": {{faker 'datatype.boolean'}},\n      \"background_image\": \"\",\n      \"rating\": {{faker 'number.int' max=99999}},\n      \"rating_top\": {{faker 'number.int' max=99999}},\n      \"ratings\": {},\n      \"ratings_count\": {{faker 'number.int' max=99999}},\n      \"reviews_text_count\": \"\",\n      \"added\": {{faker 'number.int' max=99999}},\n      \"added_by_status\": {},\n      \"metacritic\": {{faker 'number.int' max=99999}},\n      \"playtime\": {{faker 'number.int' max=99999}},\n      \"suggestions_count\": {{faker 'number.int' max=99999}},\n      \"updated\": \"{{faker 'date.recent' 365}}\",\n      \"esrb_rating\": {\n        \"id\": {{faker 'number.int' max=99999}},\n        \"slug\": \"{{oneOf (array 'everyone' 'everyone-10-plus' 'teen' 'mature' 'adults-only' 'rating-pending')}}\",\n        \"name\": \"{{oneOf (array 'Everyone' 'Everyone 10+' 'Teen' 'Mature' 'Adults Only' 'Rating Pending')}}\"\n      },\n      \"platforms\": [\n        {\n          \"platform\": {\n            \"id\": {{faker 'number.int' max=99999}},\n            \"slug\": \"\",\n            \"name\": \"\"\n          },\n          \"released_at\": \"\",\n          \"requirements\": {\n            \"minimum\": \"\",\n            \"recommended\": \"\"\n          }\n        }\n      ]\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "b1fe52f8-1aac-45cf-94fa-7cd5a4871a1d",
+      "type": "http",
+      "documentation": "Get a list of parent games for DLC's and editions.",
+      "method": "get",
+      "endpoint": "games/:game_pk/parent-games",
+      "responses": [
+        {
+          "uuid": "26109e80-853c-47fe-977f-487da6b636cb",
+          "body": "{\n  \"count\": {{faker 'number.int' max=99999}},\n  \"next\": \"\",\n  \"previous\": \"\",\n  \"results\": [\n    {\n      \"id\": {{faker 'number.int' max=99999}},\n      \"slug\": \"\",\n      \"name\": \"\",\n      \"released\": \"{{date '2019' (now) 'yyyy-MM-dd'}}\",\n      \"tba\": {{faker 'datatype.boolean'}},\n      \"background_image\": \"\",\n      \"rating\": {{faker 'number.int' max=99999}},\n      \"rating_top\": {{faker 'number.int' max=99999}},\n      \"ratings\": {},\n      \"ratings_count\": {{faker 'number.int' max=99999}},\n      \"reviews_text_count\": \"\",\n      \"added\": {{faker 'number.int' max=99999}},\n      \"added_by_status\": {},\n      \"metacritic\": {{faker 'number.int' max=99999}},\n      \"playtime\": {{faker 'number.int' max=99999}},\n      \"suggestions_count\": {{faker 'number.int' max=99999}},\n      \"updated\": \"{{faker 'date.recent' 365}}\",\n      \"esrb_rating\": {\n        \"id\": {{faker 'number.int' max=99999}},\n        \"slug\": \"{{oneOf (array 'everyone' 'everyone-10-plus' 'teen' 'mature' 'adults-only' 'rating-pending')}}\",\n        \"name\": \"{{oneOf (array 'Everyone' 'Everyone 10+' 'Teen' 'Mature' 'Adults Only' 'Rating Pending')}}\"\n      },\n      \"platforms\": [\n        {\n          \"platform\": {\n            \"id\": {{faker 'number.int' max=99999}},\n            \"slug\": \"\",\n            \"name\": \"\"\n          },\n          \"released_at\": \"\",\n          \"requirements\": {\n            \"minimum\": \"\",\n            \"recommended\": \"\"\n          }\n        }\n      ]\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "6917b82d-0988-4dfc-b541-5f07c562cc9e",
+      "type": "http",
+      "documentation": "Get screenshots for the game.",
+      "method": "get",
+      "endpoint": "games/:game_pk/screenshots",
+      "responses": [
+        {
+          "uuid": "a5d6de25-a727-4e0f-8748-63ca3829ed87",
+          "body": "{\n  \"count\": {{faker 'number.int' max=99999}},\n  \"next\": \"\",\n  \"previous\": \"\",\n  \"results\": [\n    {\n      \"image\": \"@image.jpg\",\n      \"hidden\": false\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "9ffbaac2-ada1-46dc-b53f-115c6aa2ce6a",
+      "type": "http",
+      "documentation": "Get links to the stores that sell the game.",
+      "method": "get",
+      "endpoint": "games/:game_pk/stores",
+      "responses": [
+        {
+          "uuid": "9c46d5df-5a77-4546-ba93-a39883111a64",
+          "body": "{\n  \"count\": {{faker 'number.int' max=99999}},\n  \"next\": \"\",\n  \"previous\": \"\",\n  \"results\": [\n    {\n      \"id\": {{faker 'number.int' max=99999}},\n      \"game_id\": \"\",\n      \"store_id\": \"\",\n      \"url\": \"\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "46e05400-c624-4258-9254-f3407e52d80d",
+      "type": "http",
+      "documentation": "Get details of the game.",
+      "method": "get",
+      "endpoint": "games/:id",
+      "responses": [
+        {
+          "uuid": "dd589e35-d6bb-42be-9597-a53c75766965",
+          "body": "{\n  \"id\": {{faker 'number.int' max=99999}},\n  \"slug\": \"\",\n  \"name\": \"\",\n  \"name_original\": \"\",\n  \"description\": \"\",\n  \"metacritic\": {{faker 'number.int' max=99999}},\n  \"metacritic_platforms\": [\n    {\n      \"metascore\": {{faker 'number.int' max=99999}},\n      \"url\": \"\"\n    }\n  ],\n  \"released\": \"{{date '2019' (now) 'yyyy-MM-dd'}}\",\n  \"tba\": {{faker 'datatype.boolean'}},\n  \"updated\": \"{{faker 'date.recent' 365}}\",\n  \"background_image\": \"\",\n  \"background_image_additional\": \"\",\n  \"website\": \"\",\n  \"rating\": {{faker 'number.int' max=99999}},\n  \"rating_top\": {{faker 'number.int' max=99999}},\n  \"ratings\": {},\n  \"reactions\": {},\n  \"added\": {{faker 'number.int' max=99999}},\n  \"added_by_status\": {},\n  \"playtime\": {{faker 'number.int' max=99999}},\n  \"screenshots_count\": {{faker 'number.int' max=99999}},\n  \"movies_count\": {{faker 'number.int' max=99999}},\n  \"creators_count\": {{faker 'number.int' max=99999}},\n  \"achievements_count\": {{faker 'number.int' max=99999}},\n  \"parent_achievements_count\": \"\",\n  \"reddit_url\": \"\",\n  \"reddit_name\": \"\",\n  \"reddit_description\": \"\",\n  \"reddit_logo\": \"\",\n  \"reddit_count\": {{faker 'number.int' max=99999}},\n  \"twitch_count\": \"\",\n  \"youtube_count\": \"\",\n  \"reviews_text_count\": \"\",\n  \"ratings_count\": {{faker 'number.int' max=99999}},\n  \"suggestions_count\": {{faker 'number.int' max=99999}},\n  \"alternative_names\": [\n    \"\"\n  ],\n  \"metacritic_url\": \"\",\n  \"parents_count\": {{faker 'number.int' max=99999}},\n  \"additions_count\": {{faker 'number.int' max=99999}},\n  \"game_series_count\": {{faker 'number.int' max=99999}},\n  \"esrb_rating\": {\n    \"id\": {{faker 'number.int' max=99999}},\n    \"slug\": \"{{oneOf (array 'everyone' 'everyone-10-plus' 'teen' 'mature' 'adults-only' 'rating-pending')}}\",\n    \"name\": \"{{oneOf (array 'Everyone' 'Everyone 10+' 'Teen' 'Mature' 'Adults Only' 'Rating Pending')}}\"\n  },\n  \"platforms\": [\n    {\n      \"platform\": {\n        \"id\": {{faker 'number.int' max=99999}},\n        \"slug\": \"\",\n        \"name\": \"\"\n      },\n      \"released_at\": \"\",\n      \"requirements\": {\n        \"minimum\": \"\",\n        \"recommended\": \"\"\n      }\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "d3c54211-0622-4496-a862-2daae9a8d561",
+      "type": "http",
+      "documentation": "Get a list of game achievements.",
+      "method": "get",
+      "endpoint": "games/:id/achievements",
+      "responses": [
+        {
+          "uuid": "c3f3aa71-059d-4d94-8b8f-72d48db71ec4",
+          "body": "{\n  \"id\": {{faker 'number.int' max=99999}},\n  \"name\": \"\",\n  \"description\": \"\",\n  \"image\": \"\",\n  \"percent\": \"\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "26643ec8-0fb1-49a4-81aa-634163d75b39",
+      "type": "http",
+      "documentation": "Get a list of game trailers.",
+      "method": "get",
+      "endpoint": "games/:id/movies",
+      "responses": [
+        {
+          "uuid": "b247ec81-4bf0-47de-9465-2d36857f478a",
+          "body": "{\n  \"id\": {{faker 'number.int' max=99999}},\n  \"name\": \"\",\n  \"preview\": \"\",\n  \"data\": {}\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "5383fdd6-9958-4ac6-b565-386a0e6f3488",
+      "type": "http",
+      "documentation": "Get a list of most recent posts from the game's subreddit.",
+      "method": "get",
+      "endpoint": "games/:id/reddit",
+      "responses": [
+        {
+          "uuid": "5da1f538-bd6f-4fde-a0bf-40095f8a0594",
+          "body": "{\n  \"id\": {{faker 'number.int' max=99999}},\n  \"name\": \"\",\n  \"text\": \"\",\n  \"image\": \"\",\n  \"url\": \"\",\n  \"username\": \"\",\n  \"username_url\": \"\",\n  \"created\": \"{{faker 'date.recent' 365}}\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "32278126-4ada-40c7-8921-8ac436c3441c",
+      "type": "http",
+      "documentation": "Get a list of visually similar games, available only for business and enterprise API users.",
+      "method": "get",
+      "endpoint": "games/:id/suggested",
+      "responses": [
+        {
+          "uuid": "afd52620-6948-4421-8819-58dbf6cba8da",
+          "body": "{\n  \"id\": {{faker 'number.int' max=99999}},\n  \"slug\": \"\",\n  \"name\": \"\",\n  \"name_original\": \"\",\n  \"description\": \"\",\n  \"metacritic\": {{faker 'number.int' max=99999}},\n  \"metacritic_platforms\": [\n    {\n      \"metascore\": {{faker 'number.int' max=99999}},\n      \"url\": \"\"\n    }\n  ],\n  \"released\": \"{{date '2019' (now) 'yyyy-MM-dd'}}\",\n  \"tba\": {{faker 'datatype.boolean'}},\n  \"updated\": \"{{faker 'date.recent' 365}}\",\n  \"background_image\": \"\",\n  \"background_image_additional\": \"\",\n  \"website\": \"\",\n  \"rating\": {{faker 'number.int' max=99999}},\n  \"rating_top\": {{faker 'number.int' max=99999}},\n  \"ratings\": {},\n  \"reactions\": {},\n  \"added\": {{faker 'number.int' max=99999}},\n  \"added_by_status\": {},\n  \"playtime\": {{faker 'number.int' max=99999}},\n  \"screenshots_count\": {{faker 'number.int' max=99999}},\n  \"movies_count\": {{faker 'number.int' max=99999}},\n  \"creators_count\": {{faker 'number.int' max=99999}},\n  \"achievements_count\": {{faker 'number.int' max=99999}},\n  \"parent_achievements_count\": \"\",\n  \"reddit_url\": \"\",\n  \"reddit_name\": \"\",\n  \"reddit_description\": \"\",\n  \"reddit_logo\": \"\",\n  \"reddit_count\": {{faker 'number.int' max=99999}},\n  \"twitch_count\": \"\",\n  \"youtube_count\": \"\",\n  \"reviews_text_count\": \"\",\n  \"ratings_count\": {{faker 'number.int' max=99999}},\n  \"suggestions_count\": {{faker 'number.int' max=99999}},\n  \"alternative_names\": [\n    \"\"\n  ],\n  \"metacritic_url\": \"\",\n  \"parents_count\": {{faker 'number.int' max=99999}},\n  \"additions_count\": {{faker 'number.int' max=99999}},\n  \"game_series_count\": {{faker 'number.int' max=99999}},\n  \"esrb_rating\": {\n    \"id\": {{faker 'number.int' max=99999}},\n    \"slug\": \"{{oneOf (array 'everyone' 'everyone-10-plus' 'teen' 'mature' 'adults-only' 'rating-pending')}}\",\n    \"name\": \"{{oneOf (array 'Everyone' 'Everyone 10+' 'Teen' 'Mature' 'Adults Only' 'Rating Pending')}}\"\n  },\n  \"platforms\": [\n    {\n      \"platform\": {\n        \"id\": {{faker 'number.int' max=99999}},\n        \"slug\": \"\",\n        \"name\": \"\"\n      },\n      \"released_at\": \"\",\n      \"requirements\": {\n        \"minimum\": \"\",\n        \"recommended\": \"\"\n      }\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "72f11f7e-9411-446f-b621-d2151c16fbd6",
+      "type": "http",
+      "documentation": "Get streams on Twitch associated with the game, available only for business and enterprise API users.",
+      "method": "get",
+      "endpoint": "games/:id/twitch",
+      "responses": [
+        {
+          "uuid": "dfe285f6-a393-4cb5-8f24-5fca5b96f638",
+          "body": "{\n  \"id\": {{faker 'number.int' max=99999}},\n  \"external_id\": {{faker 'number.int' max=99999}},\n  \"name\": \"\",\n  \"description\": \"\",\n  \"created\": \"{{faker 'date.recent' 365}}\",\n  \"published\": \"{{faker 'date.recent' 365}}\",\n  \"thumbnail\": \"\",\n  \"view_count\": {{faker 'number.int' max=99999}},\n  \"language\": \"\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "e1048479-8982-4d05-92d2-3b7040dc01c9",
+      "type": "http",
+      "documentation": "Get videos from YouTube associated with the game, available only for business and enterprise API users.",
+      "method": "get",
+      "endpoint": "games/:id/youtube",
+      "responses": [
+        {
+          "uuid": "eed4bd71-258a-46f2-9eff-d132500278cc",
+          "body": "{\n  \"id\": {{faker 'number.int' max=99999}},\n  \"external_id\": \"\",\n  \"channel_id\": \"\",\n  \"channel_title\": \"\",\n  \"name\": \"\",\n  \"description\": \"\",\n  \"created\": \"{{faker 'date.recent' 365}}\",\n  \"view_count\": {{faker 'number.int' max=99999}},\n  \"comments_count\": {{faker 'number.int' max=99999}},\n  \"like_count\": {{faker 'number.int' max=99999}},\n  \"dislike_count\": {{faker 'number.int' max=99999}},\n  \"favorite_count\": {{faker 'number.int' max=99999}},\n  \"thumbnails\": {}\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "06d1f3fa-0b3d-4711-81f2-438722578c1e",
+      "type": "http",
+      "documentation": "Get a list of video game genres.",
+      "method": "get",
+      "endpoint": "genres",
+      "responses": [
+        {
+          "uuid": "c097d732-c025-4204-bc83-447b85c7c411",
+          "body": "{\n  \"count\": {{faker 'number.int' max=99999}},\n  \"next\": \"\",\n  \"previous\": \"\",\n  \"results\": [\n    {\n      \"id\": {{faker 'number.int' max=99999}},\n      \"name\": \"\",\n      \"slug\": \"\",\n      \"games_count\": {{faker 'number.int' max=99999}},\n      \"image_background\": \"\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "6caf0eea-31dc-487d-8629-5be03a42e18b",
+      "type": "http",
+      "documentation": "Get details of the genre.",
+      "method": "get",
+      "endpoint": "genres/:id",
+      "responses": [
+        {
+          "uuid": "47a02eaa-da6f-424e-b388-e5f23cb0120e",
+          "body": "{\n  \"id\": {{faker 'number.int' max=99999}},\n  \"name\": \"\",\n  \"slug\": \"\",\n  \"games_count\": {{faker 'number.int' max=99999}},\n  \"image_background\": \"\",\n  \"description\": \"\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "21653037-31d4-4d5d-8961-37a594bb4e7b",
+      "type": "http",
+      "documentation": "Get a list of video game platforms.",
+      "method": "get",
+      "endpoint": "platforms",
+      "responses": [
+        {
+          "uuid": "a77ab28c-dda1-428b-95f3-e8a1532d80de",
+          "body": "{\n  \"count\": {{faker 'number.int' max=99999}},\n  \"next\": \"\",\n  \"previous\": \"\",\n  \"results\": [\n    {\n      \"id\": {{faker 'number.int' max=99999}},\n      \"name\": \"\",\n      \"slug\": \"\",\n      \"games_count\": {{faker 'number.int' max=99999}},\n      \"image_background\": \"\",\n      \"image\": \"\",\n      \"year_start\": {{faker 'number.int' max=99999}},\n      \"year_end\": {{faker 'number.int' max=99999}}\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "e9e0401e-16a6-49de-9fdb-6550c38887a4",
+      "type": "http",
+      "documentation": "Get a list of parent platforms.",
+      "method": "get",
+      "endpoint": "platforms/lists/parents",
+      "responses": [
+        {
+          "uuid": "72d8a631-9e6d-4c62-a671-fe34826c9637",
+          "body": "{\n  \"count\": {{faker 'number.int' max=99999}},\n  \"next\": \"\",\n  \"previous\": \"\",\n  \"results\": [\n    {\n      \"id\": {{faker 'number.int' max=99999}},\n      \"name\": \"\",\n      \"slug\": \"\",\n      \"platforms\": [\n        {\n          \"id\": {{faker 'number.int' max=99999}},\n          \"name\": \"\",\n          \"slug\": \"\",\n          \"games_count\": {{faker 'number.int' max=99999}},\n          \"image_background\": \"\",\n          \"image\": \"\",\n          \"year_start\": {{faker 'number.int' max=99999}},\n          \"year_end\": {{faker 'number.int' max=99999}}\n        }\n      ]\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "b93da501-0dbe-41e1-bcd5-f6e5b249cac8",
+      "type": "http",
+      "documentation": "Get details of the platform.",
+      "method": "get",
+      "endpoint": "platforms/:id",
+      "responses": [
+        {
+          "uuid": "786c914a-1ec0-4983-a9db-1e0a7027ef96",
+          "body": "{\n  \"id\": {{faker 'number.int' max=99999}},\n  \"name\": \"\",\n  \"slug\": \"\",\n  \"games_count\": {{faker 'number.int' max=99999}},\n  \"image_background\": \"\",\n  \"description\": \"\",\n  \"image\": \"\",\n  \"year_start\": {{faker 'number.int' max=99999}},\n  \"year_end\": {{faker 'number.int' max=99999}}\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "9ff8e085-1913-4f72-b22c-5c1a97be1472",
+      "type": "http",
+      "documentation": "Get a list of video game publishers.",
+      "method": "get",
+      "endpoint": "publishers",
+      "responses": [
+        {
+          "uuid": "183b33ea-50d1-42da-a121-39b614e54ae6",
+          "body": "{\n  \"count\": {{faker 'number.int' max=99999}},\n  \"next\": \"\",\n  \"previous\": \"\",\n  \"results\": [\n    {\n      \"id\": {{faker 'number.int' max=99999}},\n      \"name\": \"\",\n      \"slug\": \"\",\n      \"games_count\": {{faker 'number.int' max=99999}},\n      \"image_background\": \"\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "cb02f0d5-57f6-45d9-98fb-f07c2495dfe7",
+      "type": "http",
+      "documentation": "Get details of the publisher.",
+      "method": "get",
+      "endpoint": "publishers/:id",
+      "responses": [
+        {
+          "uuid": "d174d888-318d-4fda-97a4-0f3ba322b8e5",
+          "body": "{\n  \"id\": {{faker 'number.int' max=99999}},\n  \"name\": \"\",\n  \"slug\": \"\",\n  \"games_count\": {{faker 'number.int' max=99999}},\n  \"image_background\": \"\",\n  \"description\": \"\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "9a4fe960-af41-4bde-9a35-0439c7b36c68",
+      "type": "http",
+      "documentation": "Get a list of video game storefronts.",
+      "method": "get",
+      "endpoint": "stores",
+      "responses": [
+        {
+          "uuid": "3ee46c67-e2f9-49ed-b148-16a519a29ca3",
+          "body": "{\n  \"count\": {{faker 'number.int' max=99999}},\n  \"next\": \"\",\n  \"previous\": \"\",\n  \"results\": [\n    {\n      \"id\": {{faker 'number.int' max=99999}},\n      \"name\": \"\",\n      \"domain\": \"\",\n      \"slug\": \"\",\n      \"games_count\": {{faker 'number.int' max=99999}},\n      \"image_background\": \"\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "885ef570-a909-4111-85fe-6a6d6dd1e93e",
+      "type": "http",
+      "documentation": "Get details of the store.",
+      "method": "get",
+      "endpoint": "stores/:id",
+      "responses": [
+        {
+          "uuid": "3765cc45-4b39-4517-9c54-79b95bd78794",
+          "body": "{\n  \"id\": {{faker 'number.int' max=99999}},\n  \"name\": \"\",\n  \"domain\": \"\",\n  \"slug\": \"\",\n  \"games_count\": {{faker 'number.int' max=99999}},\n  \"image_background\": \"\",\n  \"description\": \"\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "50e450a8-4218-427c-8b9b-6a591b71caf9",
+      "type": "http",
+      "documentation": "Get a list of tags.",
+      "method": "get",
+      "endpoint": "tags",
+      "responses": [
+        {
+          "uuid": "bad98565-3863-4769-8361-8efdb07e7c46",
+          "body": "{\n  \"count\": {{faker 'number.int' max=99999}},\n  \"next\": \"\",\n  \"previous\": \"\",\n  \"results\": [\n    {\n      \"id\": {{faker 'number.int' max=99999}},\n      \"name\": \"\",\n      \"slug\": \"\",\n      \"games_count\": {{faker 'number.int' max=99999}},\n      \"image_background\": \"\",\n      \"language\": \"\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "c608b737-d8a8-462a-8047-5424d49b7f47",
+      "type": "http",
+      "documentation": "Get details of the tag.",
+      "method": "get",
+      "endpoint": "tags/:id",
+      "responses": [
+        {
+          "uuid": "bd9f7a4b-f35b-49e7-9b09-77c299dbef60",
+          "body": "{\n  \"id\": {{faker 'number.int' max=99999}},\n  \"name\": \"\",\n  \"slug\": \"\",\n  \"games_count\": {{faker 'number.int' max=99999}},\n  \"image_background\": \"\",\n  \"description\": \"\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    }
+  ],
+  "rootChildren": [
+    {
+      "type": "route",
+      "uuid": "6ca072f3-4ab3-46a5-9a46-51be8a74bdbb"
+    },
+    {
+      "type": "route",
+      "uuid": "f0e84282-68fd-4f3e-8d68-3ffe0272b237"
+    },
+    {
+      "type": "route",
+      "uuid": "3852b333-7102-4a90-9fc2-6575d1a289dd"
+    },
+    {
+      "type": "route",
+      "uuid": "5dfa08d4-676b-4d75-8bae-5a37bd092c42"
+    },
+    {
+      "type": "route",
+      "uuid": "90338095-6c6a-4509-b317-47c37c3db8e9"
+    },
+    {
+      "type": "route",
+      "uuid": "ba8085ad-3cf3-4309-a958-2448763ce19c"
+    },
+    {
+      "type": "route",
+      "uuid": "7e0f2e7e-27dc-4119-bc72-463b2fea5cd6"
+    },
+    {
+      "type": "route",
+      "uuid": "2cb74daa-3376-4a88-8587-ff578f5cca96"
+    },
+    {
+      "type": "route",
+      "uuid": "25c55de2-6be7-4c51-a2ea-80909825d52d"
+    },
+    {
+      "type": "route",
+      "uuid": "b1fe52f8-1aac-45cf-94fa-7cd5a4871a1d"
+    },
+    {
+      "type": "route",
+      "uuid": "6917b82d-0988-4dfc-b541-5f07c562cc9e"
+    },
+    {
+      "type": "route",
+      "uuid": "9ffbaac2-ada1-46dc-b53f-115c6aa2ce6a"
+    },
+    {
+      "type": "route",
+      "uuid": "46e05400-c624-4258-9254-f3407e52d80d"
+    },
+    {
+      "type": "route",
+      "uuid": "d3c54211-0622-4496-a862-2daae9a8d561"
+    },
+    {
+      "type": "route",
+      "uuid": "26643ec8-0fb1-49a4-81aa-634163d75b39"
+    },
+    {
+      "type": "route",
+      "uuid": "5383fdd6-9958-4ac6-b565-386a0e6f3488"
+    },
+    {
+      "type": "route",
+      "uuid": "32278126-4ada-40c7-8921-8ac436c3441c"
+    },
+    {
+      "type": "route",
+      "uuid": "72f11f7e-9411-446f-b621-d2151c16fbd6"
+    },
+    {
+      "type": "route",
+      "uuid": "e1048479-8982-4d05-92d2-3b7040dc01c9"
+    },
+    {
+      "type": "route",
+      "uuid": "06d1f3fa-0b3d-4711-81f2-438722578c1e"
+    },
+    {
+      "type": "route",
+      "uuid": "6caf0eea-31dc-487d-8629-5be03a42e18b"
+    },
+    {
+      "type": "route",
+      "uuid": "21653037-31d4-4d5d-8961-37a594bb4e7b"
+    },
+    {
+      "type": "route",
+      "uuid": "e9e0401e-16a6-49de-9fdb-6550c38887a4"
+    },
+    {
+      "type": "route",
+      "uuid": "b93da501-0dbe-41e1-bcd5-f6e5b249cac8"
+    },
+    {
+      "type": "route",
+      "uuid": "9ff8e085-1913-4f72-b22c-5c1a97be1472"
+    },
+    {
+      "type": "route",
+      "uuid": "cb02f0d5-57f6-45d9-98fb-f07c2495dfe7"
+    },
+    {
+      "type": "route",
+      "uuid": "9a4fe960-af41-4bde-9a35-0439c7b36c68"
+    },
+    {
+      "type": "route",
+      "uuid": "885ef570-a909-4111-85fe-6a6d6dd1e93e"
+    },
+    {
+      "type": "route",
+      "uuid": "50e450a8-4218-427c-8b9b-6a591b71caf9"
+    },
+    {
+      "type": "route",
+      "uuid": "c608b737-d8a8-462a-8047-5424d49b7f47"
+    }
+  ],
+  "proxyMode": false,
+  "proxyHost": "",
+  "proxyRemovePrefix": false,
+  "tlsOptions": {
+    "enabled": false,
+    "type": "CERT",
+    "pfxPath": "",
+    "certPath": "",
+    "keyPath": "",
+    "caPath": "",
+    "passphrase": ""
+  },
+  "cors": true,
+  "headers": [
+    {
+      "key": "Access-Control-Allow-Origin",
+      "value": "*"
+    },
+    {
+      "key": "Access-Control-Allow-Methods",
+      "value": "GET,POST,PUT,PATCH,DELETE,HEAD,OPTIONS"
+    },
+    {
+      "key": "Access-Control-Allow-Headers",
+      "value": "Content-Type, Origin, Accept, Authorization, Content-Length, X-Requested-With"
+    }
+  ],
+  "proxyReqHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "proxyResHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "data": [],
+  "callbacks": []
+}
