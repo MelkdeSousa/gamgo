@@ -20,7 +20,7 @@ func NewGameDAO(connection *pgx.Conn) *GameDAO {
 func (dao *GameDAO) SearchGames(ctx context.Context, term string) ([]models.Game, error) {
 	var games []models.Game
 	query := `
-		SELECT * FROM games
+		SELECT id, title, description, platforms, releaseDate, rating, coverImage, externalId, externalSource FROM games
 		WHERE search_vector @@ to_tsquery('english', $1)`
 	rows, err := dao.connection.Query(ctx, query, term)
 	if err != nil {
@@ -30,7 +30,17 @@ func (dao *GameDAO) SearchGames(ctx context.Context, term string) ([]models.Game
 
 	for rows.Next() {
 		var game models.Game
-		if err := rows.Scan(&game.ID, &game.Title, &game.Description, &game.ReleaseDate, &game.Platforms, &game.Rating); err != nil {
+		if err := rows.Scan(
+			&game.ID,
+			&game.Title,
+			&game.Description,
+			&game.ReleaseDate,
+			&game.Platforms,
+			&game.Rating,
+			&game.CoverImage,
+			&game.ExternalID,
+			&game.ExternalSource,
+		); err != nil {
 			return nil, err
 		}
 		games = append(games, game)
@@ -49,4 +59,26 @@ func (dao *GameDAO) HasGame(ctx context.Context, term string) (bool, error) {
 		return false, err
 	}
 	return count > 0, nil
+}
+
+func (dao *GameDAO) InsertManyGames(ctx context.Context, games []models.Game) error {
+	tx, err := dao.connection.Begin(ctx)
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback(ctx)
+	for _, game := range games {
+		query := `
+			INSERT INTO games (title, description, platforms, releaseDate, rating, coverImage, externalId, externalSource)
+			VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+			ON CONFLICT (externalId) DO NOTHING`
+		_, err := tx.Exec(ctx, query, game.Title, game.Description, game.Platforms, game.ReleaseDate, game.Rating, game.CoverImage, game.ExternalID, game.ExternalSource)
+		if err != nil {
+			return err
+		}
+	}
+	if err := tx.Commit(ctx); err != nil {
+		return err
+	}
+	return nil
 }
