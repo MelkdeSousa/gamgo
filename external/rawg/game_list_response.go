@@ -12,7 +12,7 @@ type Result struct {
 	Slug            string     `json:"slug"`
 	Name            string     `json:"name"`
 	Platforms       []Platform `json:"platforms"`
-	ID              int64      `json:"id"`
+	ID              int        `json:"id"`
 	Released        string     `json:"released"`
 	Rating          float64    `json:"rating"`
 	BackgroundImage *string    `json:"background_image"`
