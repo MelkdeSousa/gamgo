@@ -15,7 +15,7 @@ var (
 	dbOnce sync.Once
 )
 
-func GetDBConnnection() *pgx.Conn {
+func GetDBConnection() *pgx.Conn {
 	dbOnce.Do(func() {
 		var err error
 		db, err = pgx.Connect(context.Background(), config.MustGetEnv("DB_STRING"))
