@@ -15,7 +15,7 @@ type Result struct {
 	ID              int        `json:"id"`
 	Released        string     `json:"released"`
 	Rating          float64    `json:"rating"`
-	BackgroundImage *string    `json:"background_image"`
+	BackgroundImage string     `json:"background_image"`
 	// Playtime         int64             `json:"playtime"`
 	// Stores           []Store           `json:"stores"`
 	// Tba              bool              `json:"tba"`

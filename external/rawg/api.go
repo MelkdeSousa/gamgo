@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 	"net/url"
 
@@ -21,6 +22,7 @@ func NewRawgAPI() *RawgAPI {
 
 func (api *RawgAPI) SearchGames(ctx context.Context, title string, page int) (*GameListResponse, error) {
 	baseURL := fmt.Sprintf("https://api.rawg.io/api/games?key=%s&search=%s&page=%d", config.MustGetEnv("RAWG_API_KEY"), url.QueryEscape(title), page)
+	log.Printf("Searching games with title: %s, page: %d", title, page)
 	resp, err := http.Get(baseURL)
 	if err != nil {
 		return nil, err
