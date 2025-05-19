@@ -70,8 +70,7 @@ func (dao *GameDAO) InsertManyGames(ctx context.Context, games []models.Game) er
 	for _, game := range games {
 		query := `
 			INSERT INTO games (title, description, platforms, releaseDate, rating, coverImage, externalId, externalSource)
-			VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
-			ON CONFLICT (externalId) DO NOTHING`
+			VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`
 		_, err := tx.Exec(ctx, query, game.Title, game.Description, game.Platforms, game.ReleaseDate, game.Rating, game.CoverImage, game.ExternalID, game.ExternalSource)
 		if err != nil {
 			return err
