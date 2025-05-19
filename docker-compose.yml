@@ -42,6 +42,16 @@ services:
     volumes:
       - redis_data:/data
 
+  redis-commander:
+    container_name: gamgo-redis-commander
+    image: rediscommander/redis-commander:latest
+    environment:
+      - REDIS_HOSTS=local:cache:6379
+    ports:
+      - "8081:8081"
+    depends_on:
+      - cache
+
 volumes:
   postgres_data:
   redis_data:
