@@ -1,13 +1,13 @@
 package models
 
 type Game struct {
-	ID             string
-	Title          string
-	Description    string
-	ReleaseDate    string
-	Platforms      []string
-	Rating         int
-	ExternalID     string
-	ExternalSource string
-	CoverImage     string
+	ID             string   `json:"id"`
+	Title          string   `json:"title"`
+	Description    string   `json:"description,omitempty"`
+	ReleaseDate    string   `json:"release_date,omitempty"`
+	Platforms      []string `json:"platforms"`
+	Rating         int      `json:"rating"`
+	ExternalID     string   `json:"external_id"`
+	ExternalSource string   `json:"external_source"`
+	CoverImage     string   `json:"cover_image"`
 }
