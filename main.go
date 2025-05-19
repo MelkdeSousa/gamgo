@@ -53,7 +53,10 @@ func main() {
 		title := sanitize(c.Query("title"))
 		pageStr := c.Query("page")
 		page, err := strconv.Atoi(pageStr)
-		if err != nil || page < 1 {
+		if err != nil {
+			page = 1
+		}
+		if page < 1 {
 			page = 1
 		}
 		if title == "" {
@@ -61,11 +64,20 @@ func main() {
 				"error": "Title query parameter is required",
 			})
 		}
-		gamesCached, err := cache.Get(ctx, database.CACHE_SEARCH_GAME_KEY_PREFIX+title).Result()
+		gamesCached, err := cache.Get(
+			ctx,
+			database.GetCacheKey(
+				database.CACHE_SEARCH_GAME_KEY_PREFIX,
+				title,
+				pageStr,
+			),
+		).Result()
 		if err != nil {
-			return c.Status(500).JSON(fiber.Map{
-				"error": "Failed to fetch from cache: " + err.Error(),
-			})
+			if err != redis.Nil {
+				return c.Status(500).JSON(fiber.Map{
+					"error": "Failed to fetch from cache: " + err.Error(),
+				})
+			}
 		}
 		if gamesCached != "" {
 			var games []models.Game
@@ -74,6 +86,7 @@ func main() {
 					"error": "Failed to unmarshal cached games: " + err.Error(),
 				})
 			}
+			log.Println("Cache hit, returning cached games")
 			return c.JSON(mapGamesModelToJSON(games))
 		}
 		gamesInDB, err := gameDao.SearchGames(ctx, title)
@@ -89,7 +102,15 @@ func main() {
 					"error": "Failed to serialize game: " + err.Error(),
 				})
 			}
-			if err := cache.Set(ctx, database.CACHE_SEARCH_GAME_KEY_PREFIX+title, gamesJSON.String(), 24*time.Hour).Err(); err != nil {
+			if err := cache.Set(ctx,
+				database.GetCacheKey(
+					database.CACHE_SEARCH_GAME_KEY_PREFIX,
+					title,
+					pageStr,
+				),
+				gamesJSON.String(),
+				24*time.Hour,
+			).Err(); err != nil {
 				return c.Status(500).JSON(fiber.Map{
 					"error": "Failed to set cache: " + err.Error(),
 				})
