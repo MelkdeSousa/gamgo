@@ -17,6 +17,7 @@ import (
 	"github.com/melkdesousa/gamgo/dao/models"
 	"github.com/melkdesousa/gamgo/database"
 	"github.com/melkdesousa/gamgo/external/rawg"
+	"github.com/redis/go-redis/v9"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/recover"
@@ -132,21 +133,29 @@ func main() {
 		for i, result := range resp.Results {
 			games[i] = result
 		}
-		if err := gameDao.InsertManyGames(ctx, mapGamesJSONToModel(games)); err != nil {
-			return c.Status(500).JSON(fiber.Map{
-				"error": "Failed to save games to database: " + err.Error(),
-			})
-		}
-		gamesJSON, err := SerializerJSON(games)
+		gamesModel := mapGamesJSONToModel(games)
+		gamesJSON, err := SerializerJSON(gamesModel)
 		if err != nil {
 			log.Println("Error serializing games:", err)
-			return c.Status(200).JSON(mapGamesModelToJSON(mapGamesJSONToModel(games)))
+			return c.Status(400).JSON(fiber.Map{
+				"error": "Failed to serialize games: " + err.Error(),
+			})
 		}
-		if err := cache.Set(ctx, database.CACHE_SEARCH_GAME_KEY_PREFIX+title, gamesJSON.String(), 24*time.Hour).Err(); err != nil {
+		if err := cache.Set(
+			ctx,
+			database.GetCacheKey(database.CACHE_SEARCH_GAME_KEY_PREFIX, title, pageStr),
+			gamesJSON.String(),
+			24*time.Hour,
+		).Err(); err != nil {
 			log.Println("Error setting cache:", err)
-			return c.Status(200).JSON(mapGamesModelToJSON(mapGamesJSONToModel(games)))
+			return c.Status(400).JSON(fiber.Map{
+				"error": "Failed to set cache: " + err.Error(),
+			})
 		}
-		return c.Status(200).JSON(mapGamesModelToJSON(mapGamesJSONToModel(games)))
+		if err := gameDao.InsertManyGames(ctx, mapGamesJSONToModel(games)); err != nil {
+			log.Println("Error inserting games into database:", err)
+		}
+		return c.Status(200).JSON(mapGamesModelToJSON(gamesModel))
 	})
 	app.Listen(":3000")
 }
@@ -165,12 +174,12 @@ func SerializerJSON[T any](data T) (*bytes.Buffer, error) {
 
 func mapGameModelToJSON(game models.Game) map[string]interface{} {
 	gameMap := map[string]interface{}{
-		"id":          game.ID,
-		"title":       game.Title,
-		"description": game.Description,
-		"released":    game.ReleaseDate,
-		"platforms":   game.Platforms,
-		"rating":      game.Rating,
+		"id":        game.ID,
+		"title":     game.Title,
+		"released":  game.ReleaseDate,
+		"platforms": game.Platforms,
+		"rating":    game.Rating,
+		// "description": game.Description,
 	}
 	return gameMap
 }
@@ -188,14 +197,21 @@ func mapGameJSONExternalToModel(gameJSON rawg.Result) models.Game {
 	for i, p := range gameJSON.Platforms {
 		platforms[i] = p.Platform.Name
 	}
+	releaseDate, err := time.Parse(time.DateOnly, gameJSON.Released)
+	if err != nil {
+		log.Println("Error parsing release date:", err)
+		releaseDate = time.Time{}
+	}
 	game := models.Game{
 		ID:    uuid.NewString(),
 		Title: gameJSON.Name,
 		// Description: gameJSON.Description,
-		ReleaseDate: gameJSON.Released,
-		Platforms:   platforms,
-		Rating:      int(gameJSON.Rating),
-		ExternalID:  strconv.Itoa(gameJSON.ID),
+		ReleaseDate:    releaseDate.Format(time.DateOnly),
+		Platforms:      platforms,
+		Rating:         int(gameJSON.Rating * 100),
+		ExternalID:     strconv.Itoa(gameJSON.ID),
+		CoverImage:     gameJSON.BackgroundImage,
+		ExternalSource: gameJSON.Slug,
 	}
 	return game
 }
