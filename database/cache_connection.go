@@ -23,7 +23,6 @@ func GetCacheConnection() *redis.Client {
 			Password: config.MustGetEnv("CACHE_PASSWORD"),  // No password set
 			DB:       config.MustGetEnvAs[int]("CACHE_DB"), // Use default DB
 		})
-
 		// Start a goroutine to periodically check cache health
 		go startCacheHealthCheck()
 	})
@@ -35,20 +34,16 @@ func GetCacheConnection() *redis.Client {
 func startCacheHealthCheck() {
 	ticker := time.NewTicker(30 * time.Second)
 	defer ticker.Stop()
-
 	for range ticker.C {
 		if cache == nil {
 			continue
 		}
-
 		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 		_, err := cache.Ping(ctx).Result()
 		cancel()
-
 		if err != nil {
 			// Log the error
 			log.Printf("Cache health check failed: %v", err)
-
 			// Try to reconnect
 			reconnectCache()
 		}
@@ -61,17 +56,14 @@ func reconnectCache() {
 		// Close existing connection
 		_ = cache.Close()
 	}
-
 	cache = redis.NewClient(&redis.Options{
 		Addr:     config.MustGetEnv("CACHE_ADDR"),
 		Password: config.MustGetEnv("CACHE_PASSWORD"),
 		DB:       config.MustGetEnvAs[int]("CACHE_DB"),
 	})
-
 	// Test the new connection
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
-
 	if _, err := cache.Ping(ctx).Result(); err != nil {
 		log.Printf("Failed to reconnect to cache: %v", err)
 	} else {
