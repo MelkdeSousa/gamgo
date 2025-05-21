@@ -20,7 +20,7 @@ func NewGameDAO(connection *pgx.Conn) *GameDAO {
 func (dao *GameDAO) SearchGames(ctx context.Context, term string) ([]models.Game, error) {
 	var games []models.Game
 	query := `
-		SELECT id, title, description, platforms, releaseDate, rating, coverImage, externalId, externalSource FROM games
+		SELECT id, title, platforms, releaseDate, rating, coverImage, externalId, externalSource FROM games
 		WHERE search_vector @@ to_tsquery('english', $1)`
 	rows, err := dao.connection.Query(ctx, query, term)
 	if err != nil {
@@ -33,9 +33,8 @@ func (dao *GameDAO) SearchGames(ctx context.Context, term string) ([]models.Game
 		if err := rows.Scan(
 			&game.ID,
 			&game.Title,
-			&game.Description,
-			&game.ReleaseDate,
 			&game.Platforms,
+			&game.ReleaseDate,
 			&game.Rating,
 			&game.CoverImage,
 			&game.ExternalID,
@@ -69,9 +68,9 @@ func (dao *GameDAO) InsertManyGames(ctx context.Context, games []models.Game) er
 	defer tx.Rollback(ctx)
 	for _, game := range games {
 		query := `
-			INSERT INTO games (title, description, platforms, releaseDate, rating, coverImage, externalId, externalSource)
-			VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`
-		_, err := tx.Exec(ctx, query, game.Title, game.Description, game.Platforms, game.ReleaseDate, game.Rating, game.CoverImage, game.ExternalID, game.ExternalSource)
+			INSERT INTO games (title, platforms, releaseDate, rating, coverImage, externalId, externalSource)
+			VALUES ($1, $2, $3, $4, $5, $6, $7)`
+		_, err := tx.Exec(ctx, query, game.Title, game.Platforms, game.ReleaseDate, game.Rating, game.CoverImage, game.ExternalID, game.ExternalSource)
 		if err != nil {
 			return err
 		}
