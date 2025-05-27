@@ -98,8 +98,9 @@ func (h *GameHandler) ListGames(c *fiber.Ctx) error {
 	platformsStr := c.Query("platforms", "") // Default to empty string if not provided
 	title := c.Query("title", "")            // Default to empty string if not provided
 	if platformsStr == "" && title == "" {
-		return c.Status(http.StatusBadRequest).JSON(fiber.Map{
-			"error": "At least one of 'platforms' or 'title' query parameters must be provided",
+		return c.Status(http.StatusBadRequest).JSON(mappers.ErrorResponse{
+			Error:   "At least one of 'platforms' or 'title' query parameters must be provided",
+			Details: "Please provide at least one search criterion.",
 		})
 	}
 	page, err := strconv.Atoi(pageStr)
@@ -111,34 +112,39 @@ func (h *GameHandler) ListGames(c *fiber.Ctx) error {
 	games, total, err := h.gameService.ListGames(ctx, page, platforms, title)
 	if err != nil {
 		log.Printf("Error from GameService: %v", err)
-		return c.Status(http.StatusInternalServerError).JSON(fiber.Map{
-			"error":   "An unexpected error occurred",
-			"details": err.Error(),
+		return c.Status(http.StatusInternalServerError).JSON(mappers.ErrorResponse{
+			Error:   "An unexpected error occurred",
+			Details: err.Error(),
 		})
 	}
 
 	if len(games) == 0 {
-		return c.Status(http.StatusNotFound).JSON(fiber.Map{
-			"message": "No games found",
-			"filters": fiber.Map{
+		return c.Status(http.StatusNotFound).JSON(mappers.PaginationResponse[[]mappers.GameOutputDTO]{
+			CommonResponse: mappers.CommonResponse[[]mappers.GameOutputDTO]{
+				Data:    []mappers.GameOutputDTO{},
+				Message: "No games found matching your criteria",
+			},
+			Filters: fiber.Map{
 				"platforms": platforms,
 				"title":     title,
 			},
-			"page":  page,
-			"total": 0,
-			"count": 0,
+			Page:  page,
+			Total: 0,
+			Count: 0,
 		})
 	}
 
-	return c.Status(http.StatusOK).JSON(fiber.Map{
-		"games": mappers.MapGamesModelToJSON(games),
-		"total": total,
-		"page":  page,
-		"count": len(games),
-		"filters": fiber.Map{
+	return c.Status(http.StatusOK).JSON(mappers.PaginationResponse[[]mappers.GameOutputDTO]{
+		CommonResponse: mappers.CommonResponse[[]mappers.GameOutputDTO]{
+			Data:    mappers.MapGamesModelToOutputDTO(games),
+			Message: "Games retrieved successfully",
+		},
+		Filters: fiber.Map{
 			"platforms": platforms,
 			"title":     title,
 		},
-		"message": "Games retrieved successfully",
+		Page:  page,
+		Total: total,
+		Count: len(games),
 	})
 }
