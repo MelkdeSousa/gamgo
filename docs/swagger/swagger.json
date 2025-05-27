@@ -1,0 +1,151 @@
+{
+    "schemes": [
+        "http"
+    ],
+    "swagger": "2.0",
+    "info": {
+        "description": "Gamgo is a game search API that allows users to search for games by title, leveraging both local database and external APIs.",
+        "title": "Gamgo API",
+        "contact": {},
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0"
+    },
+    "host": "localhost:3000",
+    "basePath": "/",
+    "paths": {
+        "/games": {
+            "get": {
+                "description": "get games",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "accounts"
+                ],
+                "summary": "List Games",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "game search by title",
+                        "name": "title",
+                        "in": "query"
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "csv",
+                        "description": "game search by platforms, comma-separated",
+                        "name": "platforms",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "page number, default is 1",
+                        "name": "page",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/mappers.PaginationResponse-array_mappers_GameOutputDTO"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/mappers.ErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/mappers.PaginationResponse-array_mappers_GameOutputDTO"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/mappers.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "mappers.ErrorResponse": {
+            "type": "object",
+            "properties": {
+                "details": {
+                    "type": "string"
+                },
+                "error": {
+                    "type": "string"
+                }
+            }
+        },
+        "mappers.GameOutputDTO": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "platforms": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "rating": {
+                    "type": "number"
+                },
+                "released": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
+        },
+        "mappers.PaginationResponse-array_mappers_GameOutputDTO": {
+            "type": "object",
+            "properties": {
+                "count": {
+                    "type": "integer"
+                },
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/mappers.GameOutputDTO"
+                    }
+                },
+                "filters": {},
+                "message": {
+                    "type": "string"
+                },
+                "page": {
+                    "type": "integer"
+                },
+                "total": {
+                    "type": "integer"
+                }
+            }
+        }
+    },
+    "externalDocs": {
+        "description": "OpenAPI"
+    }
+}

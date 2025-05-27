@@ -1,0 +1,101 @@
+basePath: /
+definitions:
+  mappers.ErrorResponse:
+    properties:
+      details:
+        type: string
+      error:
+        type: string
+    type: object
+  mappers.GameOutputDTO:
+    properties:
+      id:
+        type: string
+      platforms:
+        items:
+          type: string
+        type: array
+      rating:
+        type: number
+      released:
+        type: string
+      title:
+        type: string
+    type: object
+  mappers.PaginationResponse-array_mappers_GameOutputDTO:
+    properties:
+      count:
+        type: integer
+      data:
+        items:
+          $ref: '#/definitions/mappers.GameOutputDTO'
+        type: array
+      filters: {}
+      message:
+        type: string
+      page:
+        type: integer
+      total:
+        type: integer
+    type: object
+externalDocs:
+  description: OpenAPI
+host: localhost:3000
+info:
+  contact: {}
+  description: Gamgo is a game search API that allows users to search for games by
+    title, leveraging both local database and external APIs.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  title: Gamgo API
+  version: "1.0"
+paths:
+  /games:
+    get:
+      consumes:
+      - application/json
+      description: get games
+      parameters:
+      - description: game search by title
+        in: query
+        name: title
+        type: string
+      - collectionFormat: csv
+        description: game search by platforms, comma-separated
+        in: query
+        items:
+          type: string
+        name: platforms
+        type: array
+      - description: page number, default is 1
+        in: query
+        name: page
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/mappers.PaginationResponse-array_mappers_GameOutputDTO'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/mappers.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/mappers.PaginationResponse-array_mappers_GameOutputDTO'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/mappers.ErrorResponse'
+      summary: List Games
+      tags:
+      - accounts
+schemes:
+- http
+swagger: "2.0"

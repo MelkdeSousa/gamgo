@@ -6,10 +6,11 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/recover"
+	"github.com/gofiber/swagger"
 	"github.com/joho/godotenv"
-
 	"github.com/melkdesousa/gamgo/dao"
 	"github.com/melkdesousa/gamgo/database"
+	_ "github.com/melkdesousa/gamgo/docs/swagger" // This is required for swagger to work
 	"github.com/melkdesousa/gamgo/external/rawg"
 	"github.com/melkdesousa/gamgo/handlers"
 	"github.com/melkdesousa/gamgo/services"
@@ -22,6 +23,15 @@ func init() {
 	}
 }
 
+// @title					Gamgo API
+// @version					1.0
+// @description				Gamgo is a game search API that allows users to search for games by title, leveraging both local database and external APIs.
+// @license.name			Apache 2.0
+// @license.url				http://www.apache.org/licenses/LICENSE-2.0.html
+// @host					localhost:3000
+// @BasePath				/
+// @schemes					http
+// @externalDocs.description	OpenAPI
 func main() {
 	// Initialize environment variables
 	if err := godotenv.Load(); err != nil {
@@ -61,6 +71,8 @@ func main() {
 	app := fiber.New(fiber.Config{
 		AppName: "gamgo",
 	})
+
+	app.Get("/swagger/*", swagger.HandlerDefault) // default
 
 	// Middleware
 	app.Use(recover.New())

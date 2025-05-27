@@ -4,7 +4,6 @@ import (
 	"log"
 	"net/http"
 	"strconv"
-	"strings"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/melkdesousa/gamgo/mappers"
@@ -38,8 +37,9 @@ func (h *GameHandler) SearchGames(c *fiber.Ctx) error {
 	sanitizedTitle := utils.Sanitize(titleQuery)
 
 	if sanitizedTitle == "" {
-		return c.Status(http.StatusBadRequest).JSON(fiber.Map{
-			"error": "Title query parameter is required and cannot be empty after sanitization",
+		return c.Status(http.StatusBadRequest).JSON(mappers.ErrorResponse{
+			Error:   "Title query parameter is required and cannot be empty after sanitization",
+			Details: "Please provide a valid title.",
 		})
 	}
 
@@ -47,51 +47,58 @@ func (h *GameHandler) SearchGames(c *fiber.Ctx) error {
 
 	games, err := h.gameService.SearchGames(ctx, sanitizedTitle, page, pageStr)
 	if err != nil {
-		// Determine appropriate HTTP status code based on error type
-		// This is a simplified error handling. Production code might inspect errors more deeply.
 		log.Printf("Error from GameService: %v", err)
-		if strings.Contains(err.Error(), "failed to fetch from cache") ||
-			strings.Contains(err.Error(), "failed to unmarshal cached games") ||
-			strings.Contains(err.Error(), "failed to search games in database") ||
-			strings.Contains(err.Error(), "failed to search games in external API") {
-			return c.Status(http.StatusInternalServerError).JSON(fiber.Map{
-				"error": err.Error(),
-			})
-		}
-		// Generic internal server error for other unhandled cases
-		return c.Status(http.StatusInternalServerError).JSON(fiber.Map{
-			"error":   "An unexpected error occurred",
-			"details": err.Error(),
+		return c.Status(http.StatusInternalServerError).JSON(mappers.ErrorResponse{
+			Error:   "An unexpected error occurred",
+			Details: err.Error(),
 		})
 	}
 
 	if len(games) == 0 {
-		return c.Status(http.StatusNotFound).JSON(fiber.Map{
-			"message": "No games found matching your criteria",
-			"filters": fiber.Map{
+		return c.Status(http.StatusNotFound).JSON(mappers.PaginationResponse[[]mappers.GameOutputDTO]{
+			CommonResponse: mappers.CommonResponse[[]mappers.GameOutputDTO]{
+				Data:    []mappers.GameOutputDTO{},
+				Message: "No games found matching your criteria",
+			},
+			Filters: fiber.Map{
 				"title": sanitizedTitle,
 				"page":  page,
 			},
-			"page":  page,
-			"total": 0,
-			"count": 0,
+			Page:  page,
+			Total: 0,
+			Count: 0,
 		})
 	}
 
-	return c.Status(http.StatusOK).JSON(fiber.Map{
-		"games": mappers.MapGamesModelToJSON(games),
-		"total": len(games),
-		"page":  page,
-		"count": len(games),
-		"filters": fiber.Map{
+	return c.Status(http.StatusOK).JSON(mappers.PaginationResponse[[]mappers.GameOutputDTO]{
+		CommonResponse: mappers.CommonResponse[[]mappers.GameOutputDTO]{
+			Data:    mappers.MapGamesModelToOutputDTO(games),
+			Message: "Games retrieved successfully",
+		},
+		Filters: fiber.Map{
 			"title": sanitizedTitle,
 			"page":  page,
 		},
-		"message": "Games retrieved successfully",
+		Page:  page,
+		Count: len(games),
 	})
 }
 
-// ListGames handles the /games endpoint.
+// ListAccounts godoc
+//
+//	@Summary		List Games
+//	@Description	get games
+//	@Tags			accounts
+//	@Accept			json
+//	@Produce		json
+//	@Param			title		query		string		false	"game search by title"
+//	@Param			platforms	query		[]string	false	"game search by platforms, comma-separated"
+//	@Param			page		query		int			false	"page number, default is 1"
+//	@Success		200			{array}		mappers.PaginationResponse[[]mappers.GameOutputDTO]
+//	@Failure		400			{object}	mappers.ErrorResponse
+//	@Failure		404			{object}	mappers.PaginationResponse[[]mappers.GameOutputDTO]
+//	@Failure		500			{object}	mappers.ErrorResponse
+//	@Router			/games [get]
 func (h *GameHandler) ListGames(c *fiber.Ctx) error {
 	ctx := c.Context()
 	pageStr := c.Query("page", "1")          // Default page to "1"

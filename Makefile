@@ -5,9 +5,10 @@ help: ## Display this help screen
 
 install: ## Install project dependencies
 	@echo "Installing dependencies..."
-	go mod download
+	go mod download && go mod tidy
 	go install github.com/air-verse/air@latest
 	go install github.com/pressly/goose/v3/cmd/goose@latest
+	go install github.com/swaggo/swag/cmd/swag@latest
 
 docker-up: ## Start all docker containers
 	@echo "Starting docker containers..."
@@ -53,3 +54,11 @@ db/seeds-down: ## Rollback database seeds
 
 db/seeds-create: ## Create a new database seeder
 	@goose -dir database/seeds create $(name) sql
+
+docs/swagger-fmt: ## Format Swagger documentation
+	@echo "Formatting Swagger documentation..."
+	swag fmt
+
+docs/swagger-generate: ## Generate Swagger documentation
+	@echo "Generating Swagger documentation..."
+	swag init -g main.go -o docs/swagger
