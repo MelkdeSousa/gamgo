@@ -23,15 +23,15 @@ func init() {
 	}
 }
 
-// @title					Gamgo API
-// @version					1.0
-// @description				Gamgo is a game search API that allows users to search for games by title, leveraging both local database and external APIs.
-// @license.name			Apache 2.0
-// @license.url				http://www.apache.org/licenses/LICENSE-2.0.html
-// @host					localhost:3000
-// @BasePath				/
-// @schemes					http
-// @externalDocs.description	OpenAPI
+//	@title						Gamgo API
+//	@version					1.0
+//	@description				Gamgo is a game search API that allows users to search for games by title, leveraging both local database and external APIs.
+//	@license.name				Apache 2.0
+//	@license.url				http://www.apache.org/licenses/LICENSE-2.0.html
+//	@host						localhost:3000
+//	@BasePath					/
+//	@schemes					http
+//	@externalDocs.description	OpenAPI
 func main() {
 	// Initialize environment variables
 	if err := godotenv.Load(); err != nil {

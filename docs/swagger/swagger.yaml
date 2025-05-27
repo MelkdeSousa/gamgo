@@ -95,7 +95,45 @@ paths:
             $ref: '#/definitions/mappers.ErrorResponse'
       summary: List Games
       tags:
-      - accounts
+      - games
+  /games/search:
+    get:
+      consumes:
+      - application/json
+      description: search games by title
+      parameters:
+      - description: game search by title
+        in: query
+        name: title
+        type: string
+      - description: page number, default is 1
+        in: query
+        name: page
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/mappers.PaginationResponse-array_mappers_GameOutputDTO'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/mappers.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/mappers.PaginationResponse-array_mappers_GameOutputDTO'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/mappers.ErrorResponse'
+      summary: Search Games
+      tags:
+      - games
 schemes:
 - http
 swagger: "2.0"

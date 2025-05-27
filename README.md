@@ -80,3 +80,4 @@ make db/seeds-up
 ```bash
 make dev
 ```
+6. Acesse a documentação da API em: [http://localhost:3000/swagger](http://localhost:3000/swagger)

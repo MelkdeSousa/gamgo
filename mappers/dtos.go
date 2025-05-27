@@ -13,7 +13,7 @@ type ErrorResponse struct {
 type PaginationResponse[D any] struct {
 	CommonResponse[D]
 	Page    int         `json:"page"`
-	Total   int         `json:"total"`
+	Total   int         `json:"total,omitempty"`
 	Count   int         `json:"count"`
 	Filters interface{} `json:"filters"`
 }

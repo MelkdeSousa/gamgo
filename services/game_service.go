@@ -35,7 +35,6 @@ func NewGameService(gameDAO *dao.GameDAO, cache *redis.Client, rawgAPI *rawg.Raw
 		cacheTTLHours = 24 // Default TTL
 	}
 	cacheTTLValue := time.Duration(cacheTTLHours) * time.Hour
-
 	return &GameService{
 		gameDAO:  gameDAO,
 		cache:    cache,
@@ -48,7 +47,6 @@ func NewGameService(gameDAO *dao.GameDAO, cache *redis.Client, rawgAPI *rawg.Raw
 // It checks cache, then database, then external API.
 func (s *GameService) SearchGames(ctx context.Context, sanitizedTitle string, page int, pageStr string) ([]models.Game, error) {
 	cacheKey := database.GetCacheKey(database.CACHE_SEARCH_GAME_KEY_PREFIX, sanitizedTitle, pageStr)
-
 	// 1. Check Cache
 	gamesCached, err := s.cache.Get(ctx, cacheKey).Result()
 	if err != nil && err != redis.Nil {
@@ -64,9 +62,7 @@ func (s *GameService) SearchGames(ctx context.Context, sanitizedTitle string, pa
 		log.Printf("Cache hit for key %s, returning cached games", cacheKey)
 		return games, nil
 	}
-
 	log.Printf("Cache miss for key %s", cacheKey)
-
 	// 2. Check Database
 	// Note: Current DB search in DAO is by a general term, not specifically by page.
 	// If pagination from DB is needed, DAO would need adjustment.
@@ -76,7 +72,6 @@ func (s *GameService) SearchGames(ctx context.Context, sanitizedTitle string, pa
 		log.Printf("Error searching games in database for title '%s': %v", sanitizedTitle, err)
 		return nil, fmt.Errorf("failed to search games in database: %w", err)
 	}
-
 	if len(gamesInDB) > 0 {
 		log.Printf("Found %d games in DB for title '%s'", len(gamesInDB), sanitizedTitle)
 		gamesJSON, err := utils.SerializerJSON(gamesInDB)
@@ -93,7 +88,6 @@ func (s *GameService) SearchGames(ctx context.Context, sanitizedTitle string, pa
 		}
 		return gamesInDB, nil
 	}
-
 	log.Printf("No games found in DB for title '%s'. Fetching from RAWG API.", sanitizedTitle)
 	// 3. Fetch from External API (RAWG)
 	resp, err := s.rawgAPI.SearchGames(ctx, sanitizedTitle, page)
@@ -101,19 +95,15 @@ func (s *GameService) SearchGames(ctx context.Context, sanitizedTitle string, pa
 		log.Printf("Error searching games in external API for title '%s', page %d: %v", sanitizedTitle, page, err)
 		return nil, fmt.Errorf("failed to search games in external API: %w", err)
 	}
-
 	if resp == nil || resp.Count == 0 {
 		log.Printf("No games found in external API for title '%s', page %d", sanitizedTitle, page)
 		return []models.Game{}, nil // Return empty slice, not an error for "not found"
 	}
-
 	gamesFromAPI := make([]rawg.Result, len(resp.Results))
 	for i, result := range resp.Results {
 		gamesFromAPI[i] = result
 	}
-
 	gamesModel := mappers.MapGamesJSONToModel(gamesFromAPI)
-
 	// Cache the results from RAWG API
 	gamesJSON, err := utils.SerializerJSON(gamesModel)
 	if err != nil {
@@ -127,7 +117,6 @@ func (s *GameService) SearchGames(ctx context.Context, sanitizedTitle string, pa
 			log.Printf("Successfully cached API results for key %s with TTL %v", cacheKey, s.cacheTTL)
 		}
 	}
-
 	// Asynchronously save to DB (or synchronously if critical)
 	// For simplicity here, it's synchronous. Consider a background worker for bulk/non-critical inserts.
 	if err := s.gameDAO.InsertManyGames(ctx, gamesModel); err != nil {
@@ -136,7 +125,6 @@ func (s *GameService) SearchGames(ctx context.Context, sanitizedTitle string, pa
 	} else {
 		log.Printf("Successfully inserted %d games from API into database for title '%s'", len(gamesModel), sanitizedTitle)
 	}
-
 	return gamesModel, nil
 }
 

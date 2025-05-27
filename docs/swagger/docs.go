@@ -29,7 +29,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "accounts"
+                    "games"
                 ],
                 "summary": "List Games",
                 "parameters": [
@@ -47,6 +47,64 @@ const docTemplate = `{
                         "collectionFormat": "csv",
                         "description": "game search by platforms, comma-separated",
                         "name": "platforms",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "page number, default is 1",
+                        "name": "page",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/mappers.PaginationResponse-array_mappers_GameOutputDTO"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/mappers.ErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/mappers.PaginationResponse-array_mappers_GameOutputDTO"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/mappers.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/games/search": {
+            "get": {
+                "description": "search games by title",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "games"
+                ],
+                "summary": "Search Games",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "game search by title",
+                        "name": "title",
                         "in": "query"
                     },
                     {

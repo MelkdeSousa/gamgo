@@ -23,28 +23,36 @@ func NewGameHandler(gameService *services.GameService) *GameHandler {
 	}
 }
 
-// SearchGames handles the /games/search endpoint.
+// SearchGames godoc
+//
+//	@Summary		Search Games
+//	@Description	search games by title
+//	@Tags			games
+//	@Accept			json
+//	@Produce		json
+//	@Param			title	query		string	false	"game search by title"
+//	@Param			page	query		int		false	"page number, default is 1"
+//	@Success		200		{array}		mappers.PaginationResponse[[]mappers.GameOutputDTO]
+//	@Failure		400		{object}	mappers.ErrorResponse
+//	@Failure		404		{object}	mappers.PaginationResponse[[]mappers.GameOutputDTO]
+//	@Failure		500		{object}	mappers.ErrorResponse
+//	@Router			/games/search [get]
 func (h *GameHandler) SearchGames(c *fiber.Ctx) error {
 	ctx := c.Context()
-	titleQuery := c.Query("title")
-	pageStr := c.Query("page", "1") // Default page to "1"
-
+	titleQuery := c.Query("title", "") // Default to empty string if not provided
+	pageStr := c.Query("page", "1")    // Default page to "1"
 	page, err := strconv.Atoi(pageStr)
 	if err != nil || page < 1 {
 		page = 1 // Default to page 1 if conversion fails or page is invalid
 	}
-
 	sanitizedTitle := utils.Sanitize(titleQuery)
-
 	if sanitizedTitle == "" {
 		return c.Status(http.StatusBadRequest).JSON(mappers.ErrorResponse{
 			Error:   "Title query parameter is required and cannot be empty after sanitization",
 			Details: "Please provide a valid title.",
 		})
 	}
-
 	log.Printf("Handler: Searching games with title (sanitized): '%s', page: %d", sanitizedTitle, page)
-
 	games, err := h.gameService.SearchGames(ctx, sanitizedTitle, page, pageStr)
 	if err != nil {
 		log.Printf("Error from GameService: %v", err)
@@ -53,7 +61,6 @@ func (h *GameHandler) SearchGames(c *fiber.Ctx) error {
 			Details: err.Error(),
 		})
 	}
-
 	if len(games) == 0 {
 		return c.Status(http.StatusNotFound).JSON(mappers.PaginationResponse[[]mappers.GameOutputDTO]{
 			CommonResponse: mappers.CommonResponse[[]mappers.GameOutputDTO]{
@@ -65,11 +72,9 @@ func (h *GameHandler) SearchGames(c *fiber.Ctx) error {
 				"page":  page,
 			},
 			Page:  page,
-			Total: 0,
 			Count: 0,
 		})
 	}
-
 	return c.Status(http.StatusOK).JSON(mappers.PaginationResponse[[]mappers.GameOutputDTO]{
 		CommonResponse: mappers.CommonResponse[[]mappers.GameOutputDTO]{
 			Data:    mappers.MapGamesModelToOutputDTO(games),
@@ -84,11 +89,11 @@ func (h *GameHandler) SearchGames(c *fiber.Ctx) error {
 	})
 }
 
-// ListAccounts godoc
+// ListGames godoc
 //
 //	@Summary		List Games
 //	@Description	get games
-//	@Tags			accounts
+//	@Tags			games
 //	@Accept			json
 //	@Produce		json
 //	@Param			title		query		string		false	"game search by title"
