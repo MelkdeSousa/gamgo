@@ -47,9 +47,36 @@ não existirem), e retornar as informações para o usuário.
 - Paginação no endpoint de listagem
 - Autenticação via token
 
-## 📦 Entrega
-- Repositório público no GitHub com instruções no README
-
 ## Desenho
 
 ![system design](/docs/sd.svg)
+
+## Executando o projeto
+
+### Pré-requisitos
+- Go
+- Docker
+- ASDF
+- Make
+
+### Passos para execução
+1. Execute os containers do banco de dados e do Redis:
+```bash
+make docker-up
+```
+2. Instale as dependências do projeto:
+```bash
+make install
+```
+3. Execute as migrações do banco de dados:
+```bash
+make db/migration-up
+```
+4. Aplique as seeds iniciais (opcional):
+```bash
+make db/seeds-up
+```
+5. Inicie o servidor:
+```bash
+make dev
+```
