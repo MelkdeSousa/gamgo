@@ -4,7 +4,7 @@ help:  ## Display this help
 
 install: ## Install project dependencies
 	@echo "Installing dependencies..."
-	go mod download && go mod tidy
+	go mod download && go mod tidy && go mod verify
 	go install github.com/air-verse/air@latest
 	go install github.com/pressly/goose/v3/cmd/goose@latest
 	go install github.com/swaggo/swag/cmd/swag@latest
