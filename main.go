@@ -4,10 +4,12 @@ import (
 	"context"
 	"log"
 
+	jwtware "github.com/gofiber/contrib/jwt"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/recover"
 	"github.com/gofiber/swagger"
 	"github.com/joho/godotenv"
+	"github.com/melkdesousa/gamgo/config"
 	"github.com/melkdesousa/gamgo/dao"
 	"github.com/melkdesousa/gamgo/database"
 	_ "github.com/melkdesousa/gamgo/docs/swagger" // This is required for swagger to work
@@ -23,15 +25,15 @@ func init() {
 	}
 }
 
-//	@title						Gamgo API
-//	@version					1.0
-//	@description				Gamgo is a game search API that allows users to search for games by title, leveraging both local database and external APIs.
-//	@license.name				Apache 2.0
-//	@license.url				http://www.apache.org/licenses/LICENSE-2.0.html
-//	@host						localhost:3000
-//	@BasePath					/
-//	@schemes					http
-//	@externalDocs.description	OpenAPI
+// @title						Gamgo API
+// @version					1.0
+// @description				Gamgo is a game search API that allows users to search for games by title, leveraging both local database and external APIs.
+// @license.name				Apache 2.0
+// @license.url				http://www.apache.org/licenses/LICENSE-2.0.html
+// @host						localhost:3000
+// @BasePath					/
+// @schemes					http
+// @externalDocs.description	OpenAPI
 func main() {
 	// Initialize environment variables
 	if err := godotenv.Load(); err != nil {
@@ -57,35 +59,39 @@ func main() {
 
 	// Initialize DAO
 	gameDAO := dao.NewGameDAO(dbConn)
+	accountDAO := dao.NewAccountDAO(dbConn)
 
 	// Initialize External APIs
 	rawgAPI := rawg.NewRawgAPI()
 
 	// Initialize Services
 	gameService := services.NewGameService(gameDAO, cacheClient, rawgAPI)
+	accountService := services.NewAccountService(accountDAO)
 
 	// Initialize Handlers
-	gameHandler := handlers.NewGameHandler(gameService)
 
 	// Initialize Fiber App
 	app := fiber.New(fiber.Config{
 		AppName: "gamgo",
 	})
 
-	app.Get("/swagger/*", swagger.HandlerDefault) // default
+	gameHandler := handlers.NewGameHandler(gameService)
+	handlers.NewAuthHandler(app, accountService)
 
-	// Middleware
+	app.Get("/swagger/*", swagger.HandlerDefault)
 	app.Use(recover.New())
 
-	// Routes
-	app.Get("/games/search", gameHandler.SearchGames)
-	app.Get("/games", gameHandler.ListGames)
-	// Potentially other routes for health checks, etc.
 	app.Get("/health", func(c *fiber.Ctx) error {
 		return c.SendString("OK")
 	})
 
-	// Start Server
+	app.Use(jwtware.New(jwtware.Config{
+		SigningKey: jwtware.SigningKey{Key: []byte(config.MustGetEnv("JWT_SECRET"))},
+	}))
+
+	app.Get("/games/search", gameHandler.SearchGames)
+	app.Get("/games", gameHandler.ListGames)
+
 	log.Println("Starting server on port :3000")
 	if err := app.Listen(":3000"); err != nil {
 		log.Fatalf("Failed to start server: %v", err)
