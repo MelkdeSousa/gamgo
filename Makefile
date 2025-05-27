@@ -69,10 +69,10 @@ db/seeds-create: ## Create a new database seeder
 
 docs/swagger-fmt: ## Format Swagger documentation
 	@echo "Formatting Swagger documentation..."
-	swag fmt
+	swag fmt -g handlers/swagger.go
 .PHONY: docs/swagger-fmt
 
 docs/swagger-generate: ## Generate Swagger documentation
 	@echo "Generating Swagger documentation..."
-	swag init -g main.go -o docs/swagger
+	swag init -g handlers/swagger.go -o docs/swagger
 .PHONY: docs/swagger-generate

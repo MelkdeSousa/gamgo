@@ -13,14 +13,18 @@ import (
 
 // GameHandler handles HTTP requests related to games.
 type GameHandler struct {
+	app         *fiber.App
 	gameService *services.GameService
 }
 
 // NewGameHandler creates a new GameHandler.
-func NewGameHandler(gameService *services.GameService) *GameHandler {
-	return &GameHandler{
+func NewGameHandler(app *fiber.App, gameService *services.GameService) {
+	handler := &GameHandler{
+		app:         app,
 		gameService: gameService,
 	}
+	app.Get("/games/search", handler.SearchGames)
+	app.Get("/games", handler.ListGames)
 }
 
 // SearchGames godoc

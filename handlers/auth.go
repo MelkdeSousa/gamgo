@@ -11,8 +11,6 @@ import (
 	"github.com/melkdesousa/gamgo/services"
 )
 
-var jwtSecret = []byte("your-secret-key") // Use env var in production
-
 type LoginRequest struct {
 	Email    string `json:"email"`
 	Password string `json:"password"`
