@@ -10,29 +10,22 @@ import (
 	"github.com/melkdesousa/gamgo/external/rawg"
 )
 
-// MapGameModelToJSON converts a single Game model to a map for JSON response.
-func MapGameModelToJSON(game models.Game) map[string]interface{} {
-	gameMap := map[string]interface{}{
-		"id":        game.ID,
-		"title":     game.Title,
-		"released":  game.ReleaseDate,
-		"platforms": game.Platforms,
-		"rating":    game.Rating,
-	}
-	return gameMap
-}
-
-// MapGamesModelToJSON converts a slice of Game models to a slice of maps for JSON response.
-func MapGamesModelToJSON(games []models.Game) []map[string]interface{} {
-	gamesMap := make([]map[string]interface{}, len(games))
+func MapGamesModelToOutputDTO(games []models.Game) []GameOutputDTO {
+	gamesMap := make([]GameOutputDTO, len(games))
 	for i, game := range games {
-		gamesMap[i] = MapGameModelToJSON(game)
+		gamesMap[i] = GameOutputDTO{
+			Id:        game.ID,
+			Title:     game.Title,
+			Released:  game.ReleaseDate.Format(time.DateOnly),
+			Platforms: game.Platforms,
+			Rating:    float64(game.Rating / 100),
+		}
 	}
 	return gamesMap
 }
 
-// MapGameJSONExternalToModel converts a game result from the external RAWG API to our internal Game model.
-func MapGameJSONExternalToModel(gameJSON rawg.Result) models.Game {
+// MapGameInputDTOToModel converts a game result from the external RAWG API to our internal Game model.
+func MapGameInputDTOToModel(gameJSON rawg.Result) models.Game {
 	platforms := make([]string, len(gameJSON.Platforms))
 	for i, p := range gameJSON.Platforms {
 		platforms[i] = p.Platform.Name
@@ -65,7 +58,7 @@ func MapGameJSONExternalToModel(gameJSON rawg.Result) models.Game {
 func MapGamesJSONToModel(games []rawg.Result) []models.Game {
 	gamesModel := make([]models.Game, len(games))
 	for i, game := range games {
-		gamesModel[i] = MapGameJSONExternalToModel(game)
+		gamesModel[i] = MapGameInputDTOToModel(game)
 	}
 	return gamesModel
 }
