@@ -2,6 +2,7 @@ package dao
 
 import (
 	"context"
+	"log"
 
 	"github.com/jackc/pgx/v5"
 	"github.com/melkdesousa/gamgo/dao/models"
@@ -79,4 +80,64 @@ func (dao *GameDAO) InsertManyGames(ctx context.Context, games []models.Game) er
 		return err
 	}
 	return nil
+}
+
+func (dao *GameDAO) ListGames(ctx context.Context, page int, platforms []string, title string) ([]models.Game, int, error) {
+	var games []models.Game
+	var total int
+
+	// Query for paginated results
+	query := `
+		SELECT id, title, platforms, releaseDate, rating, coverImage, externalId, externalSource
+		FROM games
+		WHERE (
+			$1::text IS NULL
+			OR search_vector @@ plainto_tsquery($1::text)
+		)
+		OR (
+			$2::text[] IS NULL
+			OR platforms @> $2::text[]
+		)
+		LIMIT 10 OFFSET $3::int`
+	rows, err := dao.connection.Query(ctx, query, title, platforms, (page-1)*10)
+	if err != nil {
+		return nil, 0, err
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var game models.Game
+		if err := rows.Scan(
+			&game.ID,
+			&game.Title,
+			&game.Platforms,
+			&game.ReleaseDate,
+			&game.Rating,
+			&game.CoverImage,
+			&game.ExternalID,
+			&game.ExternalSource,
+		); err != nil {
+			log.Printf("Error scanning game row: %v", err)
+			return nil, 0, err
+		}
+		games = append(games, game)
+	}
+
+	// Query for total count (without LIMIT/OFFSET)
+	countQuery := `
+		SELECT COUNT(*) FROM games
+		WHERE (
+			$1::text IS NULL
+			OR search_vector @@ plainto_tsquery($1::text)
+		)
+		OR (
+			$2::text[] IS NULL
+			OR platforms @> $2::text[]
+		)`
+	err = dao.connection.QueryRow(ctx, countQuery, title, platforms).Scan(&total)
+	if err != nil {
+		return nil, 0, err
+	}
+
+	return games, total, nil
 }

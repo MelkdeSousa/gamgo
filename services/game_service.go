@@ -139,3 +139,19 @@ func (s *GameService) SearchGames(ctx context.Context, sanitizedTitle string, pa
 
 	return gamesModel, nil
 }
+
+// ListGames retrieves a list of games from the database, with optional filters.
+func (s *GameService) ListGames(ctx context.Context, page int, platforms []string, title string) (games []models.Game, total int, err error) {
+	games, total, err = s.gameDAO.ListGames(ctx, page, platforms, title)
+	if err != nil {
+		log.Printf("Error listing games from database: %v", err)
+		return nil, 0, fmt.Errorf("failed to list games: %w", err)
+	}
+
+	if len(games) == 0 {
+		log.Println("No games found in database.")
+		return nil, 0, nil // No error, just no games found
+	}
+
+	return games, total, nil
+}

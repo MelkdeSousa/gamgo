@@ -64,11 +64,55 @@ func (h *GameHandler) SearchGames(c *fiber.Ctx) error {
         })
     }
 
-    if len(games) == 0 {
-        return c.Status(http.StatusNotFound).JSON(fiber.Map{
-            "message": "No games found matching your criteria",
-        })
-    }
 
-    return c.Status(http.StatusOK).JSON(mappers.MapGamesModelToJSON(games))
+// ListGames handles the /games endpoint.
+func (h *GameHandler) ListGames(c *fiber.Ctx) error {
+	ctx := c.Context()
+	pageStr := c.Query("page", "1")          // Default page to "1"
+	platformsStr := c.Query("platforms", "") // Default to empty string if not provided
+	title := c.Query("title", "")            // Default to empty string if not provided
+	if platformsStr == "" && title == "" {
+		return c.Status(http.StatusBadRequest).JSON(fiber.Map{
+			"error": "At least one of 'platforms' or 'title' query parameters must be provided",
+		})
+	}
+	page, err := strconv.Atoi(pageStr)
+	if err != nil || page < 1 {
+		page = 1 // Default to page 1 if conversion fails or page is invalid
+	}
+	platforms := utils.SanitizeArrayStrings(platformsStr)
+	log.Printf("Handler: Listing games with page: %d, platforms: '%s', title: '%s'", page, platforms, title)
+	games, total, err := h.gameService.ListGames(ctx, page, platforms, title)
+	if err != nil {
+		log.Printf("Error from GameService: %v", err)
+		return c.Status(http.StatusInternalServerError).JSON(fiber.Map{
+			"error":   "An unexpected error occurred",
+			"details": err.Error(),
+		})
+	}
+
+	if len(games) == 0 {
+		return c.Status(http.StatusNotFound).JSON(fiber.Map{
+			"message": "No games found",
+			"filters": fiber.Map{
+				"platforms": platforms,
+				"title":     title,
+			},
+			"page":  page,
+			"total": 0,
+			"count": 0,
+		})
+	}
+
+	return c.Status(http.StatusOK).JSON(fiber.Map{
+		"games": mappers.MapGamesModelToJSON(games),
+		"total": total,
+		"page":  page,
+		"count": len(games),
+		"filters": fiber.Map{
+			"platforms": platforms,
+			"title":     title,
+		},
+		"message": "Games retrieved successfully",
+	})
 }

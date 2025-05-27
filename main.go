@@ -67,6 +67,7 @@ func main() {
 
 	// Routes
 	app.Get("/games/search", gameHandler.SearchGames)
+	app.Get("/games", gameHandler.ListGames)
 	// Potentially other routes for health checks, etc.
 	app.Get("/health", func(c *fiber.Ctx) error {
 		return c.SendString("OK")
