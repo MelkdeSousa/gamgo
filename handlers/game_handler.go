@@ -27,6 +27,7 @@ func NewGameHandler(gameService *services.GameService) *GameHandler {
 //
 //	@Summary		Search Games
 //	@Description	search games by title
+//	@Security		JWT
 //	@Tags			games
 //	@Accept			json
 //	@Produce		json
@@ -93,6 +94,7 @@ func (h *GameHandler) SearchGames(c *fiber.Ctx) error {
 //
 //	@Summary		List Games
 //	@Description	get games
+//	@Security		JWT
 //	@Tags			games
 //	@Accept			json
 //	@Produce		json

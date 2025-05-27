@@ -2,12 +2,17 @@ package mappers
 
 type CommonResponse[D any] struct {
 	Data    D      `json:"data"`
-	Message string `json:"message"`
+	Message string `json:"message,omitempty"`
+}
+
+type AuthResponse struct {
+	Token      string `json:"token"`
+	Expiration int64  `json:"expiration"` // Unix timestamp for token expiration
 }
 
 type ErrorResponse struct {
 	Error   string `json:"error"`
-	Details string `json:"details"`
+	Details string `json:"details,omitempty"`
 }
 
 type PaginationResponse[D any] struct {

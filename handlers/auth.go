@@ -7,6 +7,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/melkdesousa/gamgo/config"
+	"github.com/melkdesousa/gamgo/mappers"
 	"github.com/melkdesousa/gamgo/services"
 )
 
@@ -33,18 +34,31 @@ func NewAuthHandler(
 	app.Post("/auth/login", handler.login)
 }
 
+// Auth godoc
+//
+//	@Summary		User Login
+//	@Description	Authenticate user and return JWT token
+//	@Tags			auth
+//	@Accept			json
+//	@Produce		json
+//	@Param			login	body		LoginRequest	true	"User login credentials"
+//	@Success		200		{object}	mappers.AuthResponse
+//	@Failure		400		{object}	mappers.ErrorResponse
+//	@Failure		401		{object}	mappers.ErrorResponse
+//	@Failure		500		{object}	mappers.ErrorResponse
+//	@Router			/auth/login [post]
 func (h *AuthHandler) login(c *fiber.Ctx) error {
 	var req LoginRequest
 	if err := c.BodyParser(&req); err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid request"})
+		return c.Status(fiber.StatusBadRequest).JSON(mappers.ErrorResponse{Error: "Invalid request"})
 	}
 	account, err := h.accountService.GetAccount(req.Email, req.Password)
 	if err != nil {
 		log.Printf("Error getting account: %v", err)
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
+		return c.Status(fiber.StatusBadRequest).JSON(mappers.ErrorResponse{Error: err.Error()})
 	}
 	if account == nil {
-		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": "Invalid credentials"})
+		return c.Status(fiber.StatusUnauthorized).JSON(mappers.ErrorResponse{Error: "Invalid credentials"})
 	}
 	claims := jwt.MapClaims{
 		"email": req.Email,
@@ -57,7 +71,7 @@ func (h *AuthHandler) login(c *fiber.Ctx) error {
 	signedToken, err := token.SignedString([]byte(config.MustGetEnv("JWT_SECRET")))
 	if err != nil {
 		log.Printf("Error signing token: %v", err)
-		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Could not login"})
+		return c.Status(fiber.StatusInternalServerError).JSON(mappers.ErrorResponse{Error: "Could not login"})
 	}
-	return c.JSON(fiber.Map{"token": signedToken, "expiration": claims["exp"]})
+	return c.JSON(mappers.AuthResponse{Token: signedToken, Expiration: claims["exp"].(int64) - claims["iat"].(int64)}) // Return token and expiration time
 }

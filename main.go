@@ -34,6 +34,11 @@ func init() {
 // @BasePath					/
 // @schemes					http
 // @externalDocs.description	OpenAPI
+//
+// @securityDefinitions.apikey	JWT
+// @in							header
+// @name						Authorization
+// @description				Enter your JWT token in the format: Bearer \<token\>
 func main() {
 	// Initialize environment variables
 	if err := godotenv.Load(); err != nil {

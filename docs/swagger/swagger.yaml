@@ -1,5 +1,20 @@
 basePath: /
 definitions:
+  handlers.LoginRequest:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    type: object
+  mappers.AuthResponse:
+    properties:
+      expiration:
+        description: Unix timestamp for token expiration
+        type: integer
+      token:
+        type: string
+    type: object
   mappers.ErrorResponse:
     properties:
       details:
@@ -51,6 +66,40 @@ info:
   title: Gamgo API
   version: "1.0"
 paths:
+  /auth/login:
+    post:
+      consumes:
+      - application/json
+      description: Authenticate user and return JWT token
+      parameters:
+      - description: User login credentials
+        in: body
+        name: login
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/mappers.AuthResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/mappers.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/mappers.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/mappers.ErrorResponse'
+      summary: User Login
+      tags:
+      - auth
   /games:
     get:
       consumes:
@@ -93,6 +142,8 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/mappers.ErrorResponse'
+      security:
+      - JWT: []
       summary: List Games
       tags:
       - games
@@ -131,9 +182,17 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/mappers.ErrorResponse'
+      security:
+      - JWT: []
       summary: Search Games
       tags:
       - games
 schemes:
 - http
+securityDefinitions:
+  JWT:
+    description: 'Enter your JWT token in the format: Bearer \<token\>'
+    in: header
+    name: Authorization
+    type: apiKey
 swagger: "2.0"
