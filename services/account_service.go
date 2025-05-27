@@ -2,6 +2,7 @@ package services
 
 import (
 	"errors"
+	"log"
 
 	"github.com/melkdesousa/gamgo/dao"
 	"github.com/melkdesousa/gamgo/dao/models"
@@ -24,7 +25,11 @@ func (s *AccountService) GetAccount(email, password string) (*models.Account, er
 	}
 	account, err := s.accountDAO.GetUserByEmail(email)
 	if err != nil {
-		return nil, err
+		log.Printf("Error retrieving account by email: %v", err)
+		return nil, errors.New("error retrieving account")
+	}
+	if account == nil {
+		return nil, errors.New("invalid username or password")
 	}
 	isValid, err := ComparePasswords(account.PasswordHash, password)
 	if err != nil {
@@ -42,7 +47,10 @@ func ComparePasswords(hashedPassword, password string) (bool, error) {
 	passwordBytes := []byte(password)
 	err := bcrypt.CompareHashAndPassword(hashedPasswordBytes, passwordBytes)
 	if err != nil {
-		return false, err
+		if errors.Is(err, bcrypt.ErrMismatchedHashAndPassword) {
+			return false, nil // Passwords do not match
+		}
+		return false, err // Other error occurred
 	}
 	return true, nil
 }

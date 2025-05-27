@@ -48,6 +48,9 @@ func (dao *AccountDAO) GetUserByEmail(email string) (*models.Account, error) {
 			&rawIsActive,
 		)
 	if err != nil {
+		if err == pgx.ErrNoRows {
+			return nil, nil
+		}
 		return nil, err
 	}
 	account.ID = uuid.MustParse(rawID)
