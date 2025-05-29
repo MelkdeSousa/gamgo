@@ -2,9 +2,9 @@
   "uuid": "b632edaa-fbb6-4a42-a096-2addadd7bd42",
   "lastMigration": 33,
   "name": "RAWG Video Games Database API",
-  "endpointPrefix": "api",
+  "endpointPrefix": "",
   "latency": 0,
-  "port": 3000,
+  "port": 3100,
   "hostname": "",
   "folders": [],
   "routes": [

@@ -52,6 +52,20 @@ services:
     depends_on:
       - cache
 
+  rawg:
+    container_name: rawg
+    build:
+      context: .
+      dockerfile: Dockerfile-rawg
+    networks:
+      - app-network
+    ports:
+      - "3100:3100"
+    restart: on-failure
+
+networks:
+  app-network:
+
 volumes:
   postgres_data:
   redis_data:

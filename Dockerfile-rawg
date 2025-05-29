@@ -1,0 +1,13 @@
+FROM node:23-alpine3.21
+
+RUN npm install -g @mockoon/cli@latest
+COPY docs/rawg-mock-api.json rawg_mock.json
+
+# Do not run as root.
+RUN adduser --shell /bin/sh --disabled-password --gecos "" mockoon
+RUN chown -R mockoon ./rawg_mock.json
+USER mockoon
+
+EXPOSE 3100
+
+ENTRYPOINT ["mockoon-cli","start","--disable-log-to-file","--data","./rawg_mock.json","--port","3100"]
