@@ -11,17 +11,14 @@ import (
 	"github.com/melkdesousa/gamgo/config"
 )
 
-type RawgAPI struct {
-	nextPage     string
-	previousPage string
-}
+type RawgAPI struct{}
 
 func NewRawgAPI() *RawgAPI {
 	return &RawgAPI{}
 }
 
 func (api *RawgAPI) SearchGames(ctx context.Context, title string, page int) (*GameListResponse, error) {
-	baseURL := fmt.Sprintf("https://api.rawg.io/api/games?key=%s&search=%s&page=%d", config.MustGetEnv("RAWG_API_KEY"), url.QueryEscape(title), page)
+	baseURL := fmt.Sprintf("%s/api/games?key=%s&search=%s&page=%d", config.MustGetEnv("RAWG_BASE_URL"), config.MustGetEnv("RAWG_API_KEY"), url.QueryEscape(title), page)
 	log.Printf("Searching games with title: %s, page: %d", title, page)
 	resp, err := http.Get(baseURL)
 	if err != nil {
