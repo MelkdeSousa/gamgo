@@ -7,6 +7,7 @@ import (
 	jwtware "github.com/gofiber/contrib/jwt"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/recover"
+	"github.com/gofiber/template/html/v2"
 	"github.com/joho/godotenv"
 	"github.com/melkdesousa/gamgo/config"
 	"github.com/melkdesousa/gamgo/dao"
@@ -46,18 +47,30 @@ func main() {
 	rawgAPI := rawg.NewRawgAPI()
 	gameService := services.NewGameService(gameDAO, cacheClient, rawgAPI)
 	accountService := services.NewAccountService(accountDAO)
+	engine := html.New("views", ".html")
 	app := fiber.New(fiber.Config{
 		AppName: "gamgo",
+		Views:   engine,
 	})
+	app.Static("/static", "./views/static")
 	handlers.NewSwaggerHandler(app)
 	handlers.NewAuthHandler(app, accountService)
 	app.Use(recover.New())
-	app.Use(jwtware.New(jwtware.Config{
-		SigningKey: jwtware.SigningKey{Key: []byte(config.MustGetEnv("JWT_SECRET"))},
-	}))
+	app.Use(JWTProtection)
 	handlers.NewGameHandler(app, gameService)
 	log.Println("Starting server on port :3000")
 	if err := app.Listen(":3000"); err != nil {
 		log.Fatalf("Failed to start server: %v", err)
 	}
+}
+
+func JWTProtection(c *fiber.Ctx) error {
+	return jwtware.New(jwtware.Config{
+		SigningKey:  jwtware.SigningKey{Key: []byte(config.MustGetEnv("JWT_SECRET"))},
+		TokenLookup: "cookie:token",
+		ErrorHandler: func(c *fiber.Ctx, err error) error {
+			log.Printf("JWT error: %v", err)
+			return c.Redirect("/login")
+		},
+	})(c)
 }
