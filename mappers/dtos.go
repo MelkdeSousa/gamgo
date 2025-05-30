@@ -6,8 +6,8 @@ type CommonResponse[D any] struct {
 }
 
 type AuthResponse struct {
-	Token      string `json:"token"`
-	Expiration int64  `json:"expiration"` // Unix timestamp for token expiration
+	Token        string `json:"token"`
+	ExpirationAt int64  `json:"expiration"` // Unix timestamp for token expiration
 }
 
 type ErrorResponse struct {

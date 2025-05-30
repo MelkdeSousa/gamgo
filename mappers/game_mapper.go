@@ -14,11 +14,12 @@ func MapGamesModelToOutputDTO(games []models.Game) []GameOutputDTO {
 	gamesMap := make([]GameOutputDTO, len(games))
 	for i, game := range games {
 		gamesMap[i] = GameOutputDTO{
-			Id:        game.ID,
-			Title:     game.Title,
-			Released:  game.ReleaseDate.Format(time.DateOnly),
-			Platforms: game.Platforms,
-			Rating:    float64(game.Rating / 100),
+			Id:         game.ID,
+			Title:      game.Title,
+			Released:   game.ReleaseDate.Format(time.DateOnly),
+			Platforms:  game.Platforms,
+			Rating:     float64(game.Rating / 100),
+			CoverImage: game.CoverImage,
 		}
 	}
 	return gamesMap
