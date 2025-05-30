@@ -23,6 +23,9 @@ func NewGameHandler(app *fiber.App, gameService *services.GameService) {
 		app:         app,
 		gameService: gameService,
 	}
+	app.Get("/", func(c *fiber.Ctx) error {
+		return c.Render("pages/home", fiber.Map{})
+	})
 	app.Get("/games/search", handler.SearchGames)
 	app.Get("/games", handler.ListGames)
 }

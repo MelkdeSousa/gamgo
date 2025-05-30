@@ -29,6 +29,9 @@ func NewAuthHandler(
 		app:            app,
 		accountService: accountService,
 	}
+	app.Get("/login", func(c *fiber.Ctx) error {
+		return c.Render("pages/login", fiber.Map{})
+	})
 	app.Post("/auth/login", handler.login)
 }
 
@@ -59,11 +62,10 @@ func (h *AuthHandler) login(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusUnauthorized).JSON(mappers.ErrorResponse{Error: "Invalid credentials"})
 	}
 	claims := jwt.MapClaims{
-		"email": req.Email,
-		"exp":   time.Now().Add(time.Minute * 30).Unix(),
-		"iat":   time.Now().Unix(),
-		"sub":   account.ID.String(),
-		"role":  "user",
+		"exp":  time.Now().Add(time.Minute * 1).Unix(),
+		"iat":  time.Now().Unix(),
+		"sub":  account.ID.String(),
+		"role": "user",
 	}
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	signedToken, err := token.SignedString([]byte(config.MustGetEnv("JWT_SECRET")))
@@ -71,5 +73,5 @@ func (h *AuthHandler) login(c *fiber.Ctx) error {
 		log.Printf("Error signing token: %v", err)
 		return c.Status(fiber.StatusInternalServerError).JSON(mappers.ErrorResponse{Error: "Could not login"})
 	}
-	return c.JSON(mappers.AuthResponse{Token: signedToken, Expiration: claims["exp"].(int64) - claims["iat"].(int64)}) // Return token and expiration time
+	return c.JSON(mappers.AuthResponse{Token: signedToken, ExpirationAt: claims["exp"].(int64) - claims["iat"].(int64)}) // Return token and expiration time
 }

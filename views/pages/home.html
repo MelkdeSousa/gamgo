@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GameSpeed</title>
+    <!-- Include Tailwind CSS and DaisyUI via CDN or your preferred method -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@1.14.0/dist/full.css" rel="stylesheet">
+    <script defer src="/static/js/home.js"></script>
+</head>
+
+<body class="bg-base-200 min-h-screen flex items-center justify-center">
+    <div class="w-full max-w-3xl p-6 rounded-2xl bg-base-100 shadow-xl">
+        <form id="searchForm" class="flex items-center gap-2 mb-8">
+            <input id="searchInput" type="text" placeholder="Search by..." class="input input-bordered w-full" />
+            <button type="submit" class="btn btn-square btn-primary">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M21 21l-4-4m0 0A7 7 0 104 4a7 7 0 0013 13z" />
+                </svg>
+            </button>
+        </form>
+        <div id="gamesList" class="flex flex-col gap-4"></div>
+        <div id="loading" class="text-center py-4 hidden">Loading...</div>
+        <div id="noMore" class="text-center py-4 hidden text-base-content/60">No more games found.</div>
+    </div>
+</body>
+
+</html>
