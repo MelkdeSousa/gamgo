@@ -3,9 +3,6 @@
 ## 🎯 Objetivo
 Avaliar habilidade de trabalhar com integração com APIs externas, manipulação de dados, cache e persistência em banco de dados.
 
-### ✅ Requisitos Técnicos
-- Testes automatizados (unitários ou e2e)
-
 ### 💾 Persistência Salvar os seguintes dados no banco:
 - id
 - title
@@ -14,9 +11,6 @@ Avaliar habilidade de trabalhar com integração com APIs externas, manipulaçã
 - releaseDate
 - rating
 - coverImage
-
-### 🚀 Bônus (não obrigatório, mas bem-vindo!)
-- Testes automatizados (unitários ou e2e)
 
 ## Desenho
 
