@@ -1,0 +1,19 @@
+package pages
+
+import (
+"github.com/melkdesousa/gamgo/views/layouts"
+)
+
+templ LoginPage() {
+@layouts.Base() {
+<script defer src="/static/js/login.js"></script>
+<div class="w-full max-w-sm p-8 rounded-2xl bg-base-100 shadow-xl">
+    <h2 class="text-2xl font-bold mb-6 text-center">Login</h2>
+    <form id="login-form" class="flex flex-col gap-4">
+        <input type="email" name="email" placeholder="Email" class="input input-bordered w-full" required />
+        <input type="password" name="password" placeholder="Password" class="input input-bordered w-full" required />
+        <button type="submit" class="btn btn-primary w-full">Login</button>
+    </form>
+</div>
+}
+}
