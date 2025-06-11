@@ -9,6 +9,8 @@ import (
 	"github.com/melkdesousa/gamgo/config"
 	"github.com/melkdesousa/gamgo/mappers"
 	"github.com/melkdesousa/gamgo/services"
+	"github.com/melkdesousa/gamgo/utils"
+	"github.com/melkdesousa/gamgo/views/pages"
 )
 
 type LoginRequest struct {
@@ -30,7 +32,7 @@ func NewAuthHandler(
 		accountService: accountService,
 	}
 	app.Get("/login", func(c *fiber.Ctx) error {
-		return c.Render("pages/login", fiber.Map{})
+		return utils.Render(c, pages.LoginPage())
 	})
 	app.Post("/auth/login", handler.login)
 }

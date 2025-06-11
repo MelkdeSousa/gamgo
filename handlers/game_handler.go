@@ -9,6 +9,7 @@ import (
 	"github.com/melkdesousa/gamgo/mappers"
 	"github.com/melkdesousa/gamgo/services"
 	"github.com/melkdesousa/gamgo/utils"
+	"github.com/melkdesousa/gamgo/views/pages"
 )
 
 // GameHandler handles HTTP requests related to games.
@@ -24,7 +25,7 @@ func NewGameHandler(app *fiber.App, gameService *services.GameService) {
 		gameService: gameService,
 	}
 	app.Get("/", func(c *fiber.Ctx) error {
-		return c.Render("pages/home", fiber.Map{})
+		return utils.Render(c, pages.HomePage())
 	})
 	app.Get("/games/search", handler.SearchGames)
 	app.Get("/games", handler.ListGames)
