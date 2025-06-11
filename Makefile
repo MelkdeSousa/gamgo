@@ -5,9 +5,6 @@ help:  ## Display this help
 install: ## Install project dependencies
 	@echo "Installing dependencies..."
 	go mod download && go mod tidy && go mod verify
-	go install github.com/air-verse/air@latest
-	go install github.com/pressly/goose/v3/cmd/goose@latest
-	go install github.com/swaggo/swag/cmd/swag@latest
 .PHONY: install
 
 docker-up: ## Start all docker containers
@@ -33,7 +30,7 @@ start: ## Start the application without hot-reload
 
 dev: ## Start the application with air for hot-reload
 	@echo "Starting application in development mode..."
-	air
+	templ generate --watch --proxy="http://localhost:8080" --cmd="go run ."
 .PHONY: dev
 
 clean: ## Clean up generated files and docker volumes
