@@ -246,6 +246,9 @@ const docTemplate = `{
         "mappers.GameOutputDTO": {
             "type": "object",
             "properties": {
+                "coverImage": {
+                    "type": "string"
+                },
                 "id": {
                     "type": "string"
                 },
