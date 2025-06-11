@@ -30,7 +30,7 @@ start: ## Start the application without hot-reload
 
 dev: ## Start the application with air for hot-reload
 	@echo "Starting application in development mode..."
-	templ generate --watch --proxy="http://localhost:8080" --cmd="go run ."
+	templ generate --watch --proxy="http://localhost:3000" --cmd="go run ."
 .PHONY: dev
 
 clean: ## Clean up generated files and docker volumes
