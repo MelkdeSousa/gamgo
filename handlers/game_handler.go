@@ -47,11 +47,12 @@ func NewGameHandler(app *fiber.App, gameService *services.GameService) {
 //	@Router			/games/search [get]
 func (h *GameHandler) SearchGames(c *fiber.Ctx) error {
 	ctx := c.Context()
-	titleQuery := c.Query("title", "") // Default to empty string if not provided
-	pageStr := c.Query("page", "1")    // Default page to "1"
+	titleQuery := c.Query("title", "")
+	pageStr := c.Query("page", "1")
 	page, err := strconv.Atoi(pageStr)
 	if err != nil || page < 1 {
-		page = 1 // Default to page 1 if conversion fails or page is invalid
+		log.Printf("Invalid page number: %s, defaulting to 1", pageStr)
+		page = 1
 	}
 	sanitizedTitle := utils.Sanitize(titleQuery)
 	if sanitizedTitle == "" {
@@ -138,7 +139,6 @@ func (h *GameHandler) ListGames(c *fiber.Ctx) error {
 			Details: err.Error(),
 		})
 	}
-
 	if len(games) == 0 {
 		return c.Status(http.StatusNotFound).JSON(mappers.PaginationResponse[[]mappers.GameOutputDTO]{
 			CommonResponse: mappers.CommonResponse[[]mappers.GameOutputDTO]{
@@ -154,7 +154,6 @@ func (h *GameHandler) ListGames(c *fiber.Ctx) error {
 			Count: 0,
 		})
 	}
-
 	return c.Status(http.StatusOK).JSON(mappers.PaginationResponse[[]mappers.GameOutputDTO]{
 		CommonResponse: mappers.CommonResponse[[]mappers.GameOutputDTO]{
 			Data:    mappers.MapGamesModelToOutputDTO(games),
